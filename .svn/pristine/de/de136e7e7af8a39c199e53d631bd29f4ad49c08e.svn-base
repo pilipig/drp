@@ -1,0 +1,83 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserLog;
+import com.gmm.drp.service.UserService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.MenuVo;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+@RestController
+//@Controller
+public class UserController {
+    @Autowired
+    private UserService userService;
+    //private String md5Pwd;
+
+    //登录
+    @PostMapping("/userlogin.do")
+    public R login(String username, String password, HttpServletRequest request) {
+        User user = userService.login(username, password);
+        if (user != null) {
+            //登录成功
+            //记录登录日志
+            UserLog userLog = new UserLog();
+            userLog.setPcip(request.getRemoteAddr());
+            userLog.setUserid(user.getId());
+            userService.saveLog(userLog);
+            //通知Shiro登录成功
+            Subject subject= SecurityUtils.getSubject();
+            UsernamePasswordToken token=new UsernamePasswordToken(username,password);
+            /*if(rm!=null && rm.length()>0) {
+                token.setRememberMe(true);
+            }*/
+            subject.getSession().setAttribute("user",user);
+
+            subject.login(token);
+            return ResultUtil.setOK("登录成功");
+        }else {
+            return ResultUtil.setERROR("用户名或密码错误");
+        }
+    }
+
+    //注册(人员添加)
+    @PostMapping("userregister.do")
+    public R save(User user){
+        return userService.save(user);
+    }
+    //查询左菜单
+    @GetMapping("/usermenus.do")
+    public List<MenuVo> menus(){
+        User user= (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return userService.queryMenu(user.getId());
+    }
+
+    //人员展示
+    @RequestMapping("userlist.do")
+    @ResponseBody
+    public PageVo<User> list(int page, int limit){
+        return userService.queryByPage(page, limit);
+    }
+
+    //编辑用户的角色
+   /* @RequestMapping("userroleedit")
+    @ResponseBody
+    public R edit(int[] rids,int uid){
+        if(userService.updateRole(rids,uid)){
+            return ResultUtil.setOK("OK");
+        }else{
+            return ResultUtil.setERROR("ERROR");
+        }
+    }*/
+}

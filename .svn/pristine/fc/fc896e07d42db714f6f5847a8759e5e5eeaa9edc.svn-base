@@ -1,0 +1,32 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Goods;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface GoodsDao {
+
+
+    //分页
+    @Select("select * from t_goods limit #{index},#{count}")
+    @ResultType(Goods.class)
+    List<Goods> selectByPage(@Param("index") int index,@Param("count") int count);
+
+    @Select("select COUNT(*) from t_goods")
+    @ResultType(long.class)
+    Long selectCount();
+
+    @Select("select * from t_goods")
+    @ResultType(Goods.class)
+    List<Goods> selectAll();
+
+    //goods表属性详情
+    @Select("select g.gname,g.gadd,g.saletime,g.gdesc,g.iseventmer,g.sequence ,q.grading ,d.deliverytime from t_goods as g INNER JOIN t_qualitygrading as q INNER JOIN t_deliverytime as d on g.grad=q.id and g.deliverytime=d.id")
+    List<?> showAttribute();
+
+    //sql需要重写，现在先存两个字段进行功能测试
+    @Insert("insert into t_goods (cats,gname,gadd,saletime,grad,gdesc,deliverytime,iseventmer,sequence) values (#{cats},#{gname},#{gadd},#{saletime},#{grad},#{gdesc},#{deliverytime},#{iseventmer},#{sequence})")
+    @Options(useGeneratedKeys = true)
+    int add(Goods goods);
+}

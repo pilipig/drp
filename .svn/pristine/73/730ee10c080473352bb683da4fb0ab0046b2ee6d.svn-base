@@ -1,0 +1,17 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.PersonCart;
+
+public interface PersonCartDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(PersonCart record);
+
+    int insertSelective(PersonCart record);
+
+    PersonCart selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(PersonCart record);
+
+    int updateByPrimaryKey(PersonCart record);
+}

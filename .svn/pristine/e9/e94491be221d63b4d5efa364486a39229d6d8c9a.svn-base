@@ -1,0 +1,31 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.entity.Role;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface OrderDao {
+    //删除订单
+    int deleteByID(Integer id);
+
+    //增加订单
+    int insert(Order order);
+
+    //修改订单
+    int updateById(Order record);
+
+    //查询总数
+    @Select("select count(*) from t_order")
+    @ResultType(long.class)
+    Long selectCount();
+
+    //分页
+    //@Select("select id,personname,personphone,number,orderstatus,goodsprice,orderprice,ordertime,deliverytime,phoneip,phonetype,remark,CONCAT(province,city,district,address) as adds from t_order order by ordertime desc limit #{index},#{count}")
+    @Select("select * from t_order order by ordertime desc limit #{index},#{count}")
+    @ResultType(Role.class)
+    List<Order> selectByPage(@Param("index") int index,@Param("count") int count);
+}

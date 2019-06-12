@@ -1,0 +1,14 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Cats;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface CatsDao {
+
+
+  @Select("select * from t_cats")
+  List<Cats> selectAll();
+
+}

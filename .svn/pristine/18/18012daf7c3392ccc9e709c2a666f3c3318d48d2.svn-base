@@ -1,0 +1,57 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.GoodsDao;
+import com.gmm.drp.entity.Goods;
+import com.gmm.drp.service.GoodsService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @ClassName GoodsServiceImpl
+ * @Description
+ * @Author baohaipeng
+ * @Date
+ * @Version 1.0
+ */
+@Service
+public class GoodsServiceImpl implements GoodsService {
+    @Autowired
+    private GoodsDao goodsDao;
+
+
+    @Override
+    public List<Goods> queryAll() {
+        return goodsDao.selectAll();
+    }
+
+    @Override
+    public PageVo<Goods> queryByPage(int page, int limit) {
+        PageVo<Goods> pageVo = new PageVo<>();
+        pageVo.setData(goodsDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(goodsDao.selectCount().intValue());
+        return pageVo;
+    }
+
+    @Override
+    public int add(Goods goods) {
+
+        return goodsDao.add(goods);
+    }
+
+    /*@Override
+    public int insert(Goods goods) {
+
+        return null;
+    }*/
+
+    @Override
+    public List<?> showAttribute() {
+        return goodsDao.showAttribute();
+    }
+}

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmm.dao.CartMapper">
+  <resultMap id="BaseResultMap" type="com.gmm.entity.Cart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="personid" jdbcType="INTEGER" property="personid" />
+    <result column="personname" jdbcType="VARCHAR" property="personname" />
+    <result column="goodsid" jdbcType="INTEGER" property="goodsid" />
+    <result column="goodssep" jdbcType="VARCHAR" property="goodssep" />
+    <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+    <result column="retailprice" jdbcType="DECIMAL" property="retailprice" />
+    <result column="marketprice" jdbcType="DECIMAL" property="marketprice" />
+    <result column="goodsimage" jdbcType="VARCHAR" property="goodsimage" />
+    <result column="goodsnum" jdbcType="INTEGER" property="goodsnum" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="catsid" jdbcType="INTEGER" property="catsid" />
+    <result column="catsname" jdbcType="VARCHAR" property="catsname" />
+    <result column="goods" jdbcType="VARCHAR" property="goods" />
+    <result column="goodsgrad" jdbcType="INTEGER" property="goodsgrad" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, personid, personname, goodsid, goodssep, goodsname, retailprice, marketprice, 
+    goodsimage, goodsnum, createtime, catsid, catsname, goods, goodsgrad
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_cart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_cart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gmm.entity.Cart">
+    insert into t_cart (id, personid, personname, 
+      goodsid, goodssep, goodsname, 
+      retailprice, marketprice, goodsimage, 
+      goodsnum, createtime, catsid, 
+      catsname, goods, goodsgrad
+      )
+    values (#{id,jdbcType=INTEGER}, #{personid,jdbcType=INTEGER}, #{personname,jdbcType=VARCHAR}, 
+      #{goodsid,jdbcType=INTEGER}, #{goodssep,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, 
+      #{retailprice,jdbcType=DECIMAL}, #{marketprice,jdbcType=DECIMAL}, #{goodsimage,jdbcType=VARCHAR}, 
+      #{goodsnum,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{catsid,jdbcType=INTEGER}, 
+      #{catsname,jdbcType=VARCHAR}, #{goods,jdbcType=VARCHAR}, #{goodsgrad,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gmm.entity.Cart">
+    insert into t_cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="personid != null">
+        personid,
+      </if>
+      <if test="personname != null">
+        personname,
+      </if>
+      <if test="goodsid != null">
+        goodsid,
+      </if>
+      <if test="goodssep != null">
+        goodssep,
+      </if>
+      <if test="goodsname != null">
+        goodsname,
+      </if>
+      <if test="retailprice != null">
+        retailprice,
+      </if>
+      <if test="marketprice != null">
+        marketprice,
+      </if>
+      <if test="goodsimage != null">
+        goodsimage,
+      </if>
+      <if test="goodsnum != null">
+        goodsnum,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="catsid != null">
+        catsid,
+      </if>
+      <if test="catsname != null">
+        catsname,
+      </if>
+      <if test="goods != null">
+        goods,
+      </if>
+      <if test="goodsgrad != null">
+        goodsgrad,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personid != null">
+        #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="personname != null">
+        #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null">
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodssep != null">
+        #{goodssep,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null">
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="retailprice != null">
+        #{retailprice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketprice != null">
+        #{marketprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsimage != null">
+        #{goodsimage,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catsid != null">
+        #{catsid,jdbcType=INTEGER},
+      </if>
+      <if test="catsname != null">
+        #{catsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null">
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsgrad != null">
+        #{goodsgrad,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmm.entity.Cart">
+    update t_cart
+    <set>
+      <if test="personid != null">
+        personid = #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="personname != null">
+        personname = #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null">
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodssep != null">
+        goodssep = #{goodssep,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null">
+        goodsname = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="retailprice != null">
+        retailprice = #{retailprice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketprice != null">
+        marketprice = #{marketprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsimage != null">
+        goodsimage = #{goodsimage,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        goodsnum = #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catsid != null">
+        catsid = #{catsid,jdbcType=INTEGER},
+      </if>
+      <if test="catsname != null">
+        catsname = #{catsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null">
+        goods = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsgrad != null">
+        goodsgrad = #{goodsgrad,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gmm.entity.Cart">
+    update t_cart
+    set personid = #{personid,jdbcType=INTEGER},
+      personname = #{personname,jdbcType=VARCHAR},
+      goodsid = #{goodsid,jdbcType=INTEGER},
+      goodssep = #{goodssep,jdbcType=VARCHAR},
+      goodsname = #{goodsname,jdbcType=VARCHAR},
+      retailprice = #{retailprice,jdbcType=DECIMAL},
+      marketprice = #{marketprice,jdbcType=DECIMAL},
+      goodsimage = #{goodsimage,jdbcType=VARCHAR},
+      goodsnum = #{goodsnum,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      catsid = #{catsid,jdbcType=INTEGER},
+      catsname = #{catsname,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      goodsgrad = #{goodsgrad,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

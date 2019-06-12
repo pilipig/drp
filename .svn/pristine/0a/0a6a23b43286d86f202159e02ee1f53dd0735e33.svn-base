@@ -1,0 +1,26 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Goods;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface GoodsDao {
+
+
+    //分页
+    @Select("select * from t_goods limit #{index},#{count}")
+    @ResultType(Goods.class)
+    List<Goods> selectByPage(@Param("index") int index,@Param("count") int count);
+
+    @Select("select COUNT(*) from t_goods")
+    @ResultType(long.class)
+    Long selectCount();
+
+    @Select("select * from t_goods")
+    @ResultType(Goods.class)
+    List<Goods> selectAll();
+
+}

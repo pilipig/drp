@@ -1,0 +1,84 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.OrderDao;
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.service.OrderService;
+import com.gmm.drp.utils.RRException;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.OrderDetailVo;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.apache.ibatis.annotations.Insert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+    @Autowired
+    private OrderDao orderDao;
+
+    @Override
+    public R deleteOrder(int id) {
+        if (orderDao.deleteByID(id)>0){
+            return ResultUtil.setOK("删除成功");
+        }else {
+            return ResultUtil.setERROR("删除失败");
+        }
+    }
+
+    //分页
+    @Override
+    public PageVo<Order> queryByPage(int page, int limit) {
+        PageVo<Order> pageVo = new PageVo<>();
+        pageVo.setData(orderDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(orderDao.selectCount().intValue());
+        return pageVo;
+    }
+
+    @Override
+    public int delete(List<Long> ids) {
+        return 0;
+    }
+
+    @Override
+    public OrderDetailVo getDetail(int id) {
+        return orderDao.getDetail(id);
+    }
+
+    @Override
+    public Order queryObject(Integer id) {
+        return orderDao.queryByOrderId(id);
+    }
+
+    @Override
+    public int confirm(Integer id) {
+        Order order = queryObject(id);
+        Integer orderstatus = order.getOrderstatus();//发货状态
+        Integer paystatus = order.getPaystatus();//付款状态
+        if (0 == orderstatus){
+            throw new RRException("此订单未付款，不能确认收货！");
+        }
+        if (1 == orderstatus){
+            throw new RRException("此订单未发货，不能确认收货！");
+        }
+       /* if (0 == orderstatus){
+            throw new RRException("此订单未发货，不能确认收货！");
+        }*/
+       order.setOrderstatus(3);
+        return 0;
+    }
+
+    @Override
+    public int sendGoods(Order order) {
+        Integer payStatus = order.getPaystatus();
+        Integer orderstatus = order.getOrderstatus();
+        if (0 == orderstatus){
+            throw new RRException("此订单未付款！");
+        }
+        order.setOrderstatus(3);
+        return orderDao.updateByIds(order);
+    }
+}

@@ -1,0 +1,53 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Department;
+import com.gmm.drp.service.DepartmentService;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class DepartmentController {
+    @Autowired
+    private DepartmentService departmentService;
+
+    //增加部门
+    @RequestMapping("departmentadd.do")
+    public String add(Department department){
+        if (departmentService.insert(department)){
+            return "../departmentlist.html";
+        }else {
+            return "department/departmentadd";
+        }
+    }
+    //修改
+    @RequestMapping("departmentupdate.do")
+    public String update(String dname, int id){
+        if (departmentService.update(dname,id).getCode()==200){
+            return "../departmentlist";
+        }else {
+            return "departmentupdate";
+        }
+    }
+    //删除
+    @RequestMapping("departmentdelete.do")
+    public R delete(int id){
+        return departmentService.delete(id);
+    }
+
+    //分页查询
+    @RequestMapping("departmentpage.do")
+    public PageVo<Department> queryPage(int page, int limit){
+        return departmentService.queryPage(page,limit);
+    }
+    //查询名字
+
+    @RequestMapping("selectName.do")
+    public List<Department> selectByFlag(){
+        return departmentService.selectByFlag();
+    }
+}

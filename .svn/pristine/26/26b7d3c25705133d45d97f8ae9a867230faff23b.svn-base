@@ -1,0 +1,22 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.service.MenuService;
+import com.gmm.drp.service.UserService;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MenuController {
+
+    @Autowired
+    private MenuService menuService;
+
+    //新增
+    public R save(Menu menu){
+        return menuService.save(menu);
+    }
+
+}

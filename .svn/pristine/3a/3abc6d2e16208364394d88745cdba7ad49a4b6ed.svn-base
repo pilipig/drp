@@ -1,0 +1,21 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.RoleDao;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.service.RoleService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RoleServiImpl implements RoleService {
+
+    @Autowired
+    private RoleDao rDao;
+
+    @Override
+    public R save(Role role) {
+        return ResultUtil.setRes(rDao.insert(role));
+    }
+}

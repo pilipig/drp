@@ -1,0 +1,91 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Person;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface PersonDao {
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商品信息列表
+     */
+   /* @Select("select * from t_person")
+    @ResultType(Person.class)
+    List<Person> personList();*/
+
+    /**
+     * @Author:fuyinggang
+     * @Date:分页
+     * @Depict:
+     */
+    @Select("select * from t_person limit #{page},#{limit}")
+    @ResultType(Person.class)
+    List<Person> selectByPage(@Param("page") int page, @Param("limit") int limit);
+
+    /**
+     * @Author:fuyinggang
+     * @Date:
+     * @Depict:总条数
+     */
+    @Select("select count(*) from t_person")
+    @ResultType(Long.class)
+    Long selectCount();
+
+    /**
+     * @Author:fuyinggang
+     * @Date:
+     * @Depict:商户详情
+     */
+    @Select("select * from t_person where id=#{id}")
+    @ResultType(Person.class)
+    List<Person> personDetails(@Param("id") int id);
+
+    /**
+     * @Author:fuyinggang
+     * @Date:
+     * @Depict:商户喜欢
+     */
+    @Select("select l.create_time,p.personname,p.shopname,p.address,p.phone,p.sex,g.gname from t_love as l left join t_person as p on p.id=l.pid left join t_goods as g on g.id=l.goods_id where p.id=#{pid}")
+    @ResultType(Person.class)
+    List<Person> personLove(@Param("pid")int pid);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户浏览记录
+     */
+    @Select("select p.personname,p.sex,p.shopname,p.phone,g.gname,r.begin_time,r.end_time from t_record as r left join t_person as p on p.id=r.pid left join t_goods as g on g.id=r.goods_id where p.id=#{pid}")
+    @ResultType(Person.class)
+    List<Person> personRcord(@Param("pid")int pid);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户登录日志
+     */
+    @Select("select l.login_time,l.quit_time,p.phoneip,p.personname,p.phone,p.phonetype,p.shopname,p.address from t_logs as l left join t_person as p on p.id=l.pid where p.id=#{pid}")
+    @ResultType(Person.class)
+    List<Person> personLoginLog(@Param("pid")int pid);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户搜索
+     */
+   @Select("select * from t_person where t_person.shopname LIKE  CONCAT('%',#{keyword},'%') OR t_person.personname LIKE CONCAT('%',#{keyword},'%') OR t_person.address LIKE CONCAT('%',#{keyword},'%') OR t_person.phonetype LIKE CONCAT('%',#{keyword},'%') limit #{page},#{limit}")
+    /*@Select("select * from t_person where t_person.id LIKE  CONCAT('%',#{keyword},'%') ")*/
+    @ResultType(Person.class)
+    List<Person> personsearch(@Param("keyword")String keyword,@Param("page") int page, @Param("limit") int limit);
+
+    /**
+     * @Author:fuyinggang
+     * @Date:
+     * @Depict:查询后总条数
+     */
+    @Select("select count(*) from (select * from t_person where t_person.shopname LIKE  CONCAT('%',#{keyword},'%') OR t_person.personname LIKE CONCAT('%',#{keyword},'%') OR t_person.address LIKE CONCAT('%',#{keyword},'%') OR t_person.phonetype LIKE CONCAT('%',#{keyword},'%') )a")
+    @ResultType(Long.class)
+    Long personsearchtCount(@Param("keyword")String keyword);
+}

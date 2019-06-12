@@ -1,0 +1,91 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.service.PersonService;
+import com.gmm.drp.vo.PageVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class PersonController {
+    @Autowired
+    private PersonService personService;
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户一览
+     * @return
+     */
+   /* @GetMapping("/personList.do")
+    public PageVo<Person>  personList(){
+        return personService.personList();
+    }*/
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @page：当前页
+     *  @limit：每页显示几条数据
+     *  @Depict:分页
+     */
+    @RequestMapping("paging.do")
+    public PageVo<Person> list(int page,int limit){
+        return personService.selectByPage(page,limit);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户详情
+     */
+    @RequestMapping("personDetails.do")
+    public List<Person> personDetails(Integer id){
+
+        return personService.personDetails(id);
+    }
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户喜欢
+     */
+    @RequestMapping("personLove.do")
+    public List<Person> personLove(int pid) {
+        List<Person> personLove = personService.personLove(pid);
+        return personLove;
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户浏览记录
+     */
+    @RequestMapping("personRcord.do")
+    public List<Person> personRcord(int pid) {
+        return personService.personRcord(pid);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户登录日志
+     */
+    @RequestMapping("personLoginLog.do")
+    public List<Person> personLoginLog(int pid) {
+        return personService.personLoginLog(pid);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户搜索
+     */
+    @RequestMapping("personsearch.do")
+    public PageVo<Person> personsearch(String id,int page, int limit) {
+        System.out.println(id);
+        return personService.personsearch(id,page,limit);
+    }
+
+}
+

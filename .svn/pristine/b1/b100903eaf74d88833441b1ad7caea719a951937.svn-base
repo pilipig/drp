@@ -1,0 +1,155 @@
+package com.gmm.drp.entity;
+
+import java.util.Date;
+
+public class PersonCart {
+    private Integer id;
+
+    private Integer personid;
+
+    private String personname;
+
+    private Integer goodsid;
+
+    private String goodssep;
+
+    private String goodsname;
+
+    private Long retailprice;
+
+    private Long marketprice;
+
+    private String goodsimage;
+
+    private Integer goodsnum;
+
+    private Date createtime;
+
+    private Integer catsid;
+
+    private String catsname;
+
+    private String goods;
+
+    private Integer goodsgrad;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPersonid() {
+        return personid;
+    }
+
+    public void setPersonid(Integer personid) {
+        this.personid = personid;
+    }
+
+    public String getPersonname() {
+        return personname;
+    }
+
+    public void setPersonname(String personname) {
+        this.personname = personname == null ? null : personname.trim();
+    }
+
+    public Integer getGoodsid() {
+        return goodsid;
+    }
+
+    public void setGoodsid(Integer goodsid) {
+        this.goodsid = goodsid;
+    }
+
+    public String getGoodssep() {
+        return goodssep;
+    }
+
+    public void setGoodssep(String goodssep) {
+        this.goodssep = goodssep == null ? null : goodssep.trim();
+    }
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname == null ? null : goodsname.trim();
+    }
+
+    public Long getRetailprice() {
+        return retailprice;
+    }
+
+    public void setRetailprice(Long retailprice) {
+        this.retailprice = retailprice;
+    }
+
+    public Long getMarketprice() {
+        return marketprice;
+    }
+
+    public void setMarketprice(Long marketprice) {
+        this.marketprice = marketprice;
+    }
+
+    public String getGoodsimage() {
+        return goodsimage;
+    }
+
+    public void setGoodsimage(String goodsimage) {
+        this.goodsimage = goodsimage == null ? null : goodsimage.trim();
+    }
+
+    public Integer getGoodsnum() {
+        return goodsnum;
+    }
+
+    public void setGoodsnum(Integer goodsnum) {
+        this.goodsnum = goodsnum;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Integer getCatsid() {
+        return catsid;
+    }
+
+    public void setCatsid(Integer catsid) {
+        this.catsid = catsid;
+    }
+
+    public String getCatsname() {
+        return catsname;
+    }
+
+    public void setCatsname(String catsname) {
+        this.catsname = catsname == null ? null : catsname.trim();
+    }
+
+    public String getGoods() {
+        return goods;
+    }
+
+    public void setGoods(String goods) {
+        this.goods = goods == null ? null : goods.trim();
+    }
+
+    public Integer getGoodsgrad() {
+        return goodsgrad;
+    }
+
+    public void setGoodsgrad(Integer goodsgrad) {
+        this.goodsgrad = goodsgrad;
+    }
+}

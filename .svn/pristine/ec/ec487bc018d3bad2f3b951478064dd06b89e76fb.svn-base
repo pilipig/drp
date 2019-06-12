@@ -1,0 +1,62 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.Role;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface MenuDao {
+
+    @Insert("insert into t_menu (name, url, icon, parentid, type, createdate, status)values (#{name}, #{url}, #{icon}, #{parentid},#{type},now(), 1)")
+    @Options(useGeneratedKeys = true)
+    int insert(Menu menu);
+
+    @Select("select * from t_menu where id=#{id}")
+    Menu selectById(Integer id);
+
+    //删除角色
+    @Delete("delete from t_menu where id=#{id}")
+    int delete(int id);
+    //修改
+    @Update("update t_menu set name=#{name} where id=#{id}")
+    int updateMenu(Menu menu);
+
+    //查询用户的权限
+    @Select("SELECT m.name,m.icon from t_menu m LEFT JOIN t_rolemenu rm on m.id=rm.menuid LEFT JOIN t_userrole ur on rm.roleid=ur.roleid where ur.userid=#{userid}")
+    @ResultType(String.class)
+    List<String> selectByUid(int userid);
+
+    //根据UID显示菜单  分配给user菜单
+    //@Select("SELECT  m.* from t_menu m LEFT JOIN t_rolemenu rm on m.id = rm.menuid  LEFT JOIN t_userrole ur on ur.roleid = rm.roleid LEFT JOIN t_user u on ur.userid=u.id where m.type=1 and u.id=#{id} ORDER BY m.parentId asc,m.id")
+    @Select("SELECT  m.* from t_menu m LEFT JOIN t_rolemenu rm on m.id = rm.menuid  LEFT JOIN t_userrole ur on ur.roleid = rm.roleid LEFT JOIN t_user u on ur.userid=u.id where m.type=1 and u.id=#{u.id} ORDER BY m.parentId asc,m.id")
+    @ResultType(Menu.class)
+    List<Menu> selectByMenuUid(int uid);
+
+    //分页
+    @Select("select * from t_menu limit #{index},#{count}")
+    @ResultType(Menu.class)
+    List<Menu> selectByPage(@Param("index") int index, @Param("count") int count);
+
+
+    //根据菜单查询角色
+    @Select("select r.* from t_role r left join t_rolemenu rm on rm.roleid=r.id where rm.menuid=#{menuid}")
+    @ResultType(Role.class)
+    List<Role> queryRole(int menuid);
+
+    //总数
+    @Select("select COUNT(*) from t_menu")
+    @ResultType(long.class)
+    Long selectCount();
+
+    //查询所有
+    @Select("select * from t_menu")
+    @ResultType(Menu.class)
+    List<Menu> selectAll();
+
+    //显示父菜单
+    @Select("select * from t_menu where parentid=-1")
+    @ResultType(Menu.class)
+    List<Menu> queryFirst();
+
+}

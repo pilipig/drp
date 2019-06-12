@@ -1,0 +1,16 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Role;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+
+public interface RoleDao {
+
+    //新增角色
+    @Insert("insert into t_role ( rname, rinfo,createuserid, deptid,createdate)values ( #{rname,jdbcType=VARCHAR}, #{rinfo,jdbcType=VARCHAR}, #{createuserid,jdbcType=INTEGER},#{deptid,jdbcType=INTEGER},#{createdate,jdbcType=TIMESTAMP})")
+    int insert(Role role);
+    //删除角色
+    @Delete("delete from t_role where id=#{id}")
+    int delete(int id);
+
+}

@@ -1,0 +1,9 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.vo.R;
+
+public interface RoleService {
+
+    R save(Role role);
+}

@@ -1,0 +1,68 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.RoleDao;
+import com.gmm.drp.dao.RoleMenuDao;
+import com.gmm.drp.dao.UserRoleDao;
+import com.gmm.drp.entity.*;
+import com.gmm.drp.service.RoleService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class RoleServiImpl implements RoleService {
+
+    @Autowired
+    private RoleDao rDao;
+    @Autowired
+    private RoleMenuDao roleMenuDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
+
+    //添加角色
+    @Override
+    public R save(Role role) {
+        //获取userID 添加
+        User user= (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        role.setCreateuserid(user.getId());
+        //System.out.println(user.getId());
+        return ResultUtil.setRes(rDao.insert(role));
+    }
+
+
+    //分页展示
+    @Override
+    public PageVo<Role> queryByPage(int page, int limit) {
+        PageVo<Role> pageVo = new PageVo<>();
+        pageVo.setData(rDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(rDao.selectCount().intValue());
+        return pageVo;
+    }
+
+    //修改角色权限
+    @Override
+    public boolean updateAuth(int rid, int[] mids) {
+        try{
+            roleMenuDao.deleteByRid(rid);
+            for(int i=0;i<mids.length;i++){
+                roleMenuDao.insertAuth(rid,mids[i]);
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    //查询角色对应的权限
+    @Override
+    public List<Menu> queryMenu(int roleid) {
+        return roleMenuDao.queryMenu(roleid);
+    }
+}

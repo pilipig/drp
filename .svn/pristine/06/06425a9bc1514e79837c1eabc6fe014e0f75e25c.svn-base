@@ -1,0 +1,47 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.entity.User;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface UserDao {
+
+
+    //注册
+    @Insert("insert into t_user (no, username,password, createdate,flag)values ( #{no}, #{username},#{password},now(),1)")
+    int insert(User user);
+
+    //登录
+    @Select("select * from t_user where no=#{username} or username =#{username}")
+    @ResultType(User.class)
+    User selectByName(String name);
+
+    //修改密码
+    @Update("update t_user set password=#{newpass} where id=#{uid} and password=#{oldpass}")
+    int updatePass(@Param("uid") int uid, @Param("oldpass") String oldpass, @Param("newpass") String newPass);
+
+    //查询用户的角色
+    @Select("select r.* from t_role r left join t_userrole ur on r.id=ur.roleid left join t_user u on u.id=ur.userid where u.id=#{id}")
+    @ResultType(Role.class)
+    List<Role> queryRole(int id);
+
+    //查询数量
+    @Select("select COUNT(*) from t_user ")
+    @ResultType(long.class)
+    Long selectCount();
+
+    @Select("select * from t_user")
+    @ResultType(User.class)
+    List<User> selectAll();
+
+    //分页查询
+    @Select("select * from t_user  order by createdate desc limit #{index},#{count}")
+    @ResultType(User.class)
+    List<User> selectByPage(@Param("index") int index, @Param("count") int count);
+
+
+
+}

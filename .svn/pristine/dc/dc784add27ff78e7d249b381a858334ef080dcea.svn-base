@@ -1,0 +1,71 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.service.RoleService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import com.gmm.drp.vo.TreeRoot;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class RoleController {
+    @Autowired
+    private RoleService roleService;
+
+    //新增
+    @PostMapping("roleadd.do")
+    public R save(Role role){
+        return roleService.save(role);
+    }
+
+    //删除
+    @RequestMapping("roledel.do")
+    public R delete(int id){
+        return roleService.delete(id);
+    }
+
+    //修改
+    @RequestMapping("roleupdate.do")
+    public R update(Role role){
+        return roleService.update(role);
+    }
+    //人员展示
+    @RequestMapping("rolelist.do")
+    @ResponseBody
+    public PageVo<Role> list(int page, int limit){
+        return roleService.queryByPage(page, limit);
+    }
+
+    @RequestMapping("roleall.do")
+    @ResponseBody
+    public List<Role> queryAll(){
+        return roleService.queryAll();
+    }
+
+    //查询角色对应的权限
+    @RequestMapping("roleauths.do")
+    @ResponseBody
+    public List<Menu> queryMenuByRid(int roleid){
+        return roleService.queryMenuByRid(roleid);
+    }
+
+    //编辑用户的角色
+    @RequestMapping("rolemenuupdate.do")
+    @ResponseBody
+    public R edit(int id, int[] mids){
+        if(roleService.updateMenu(id,mids)){
+            return ResultUtil.setOK("OK");
+        }else{
+            return ResultUtil.setERROR("ERROR");
+        }
+    }
+}

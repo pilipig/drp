@@ -1,0 +1,23 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Price;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @ClassName PriceController
+ * @Description 价格系统
+ * @Author baohaipeng
+ * @Date 2019-04-40
+ * @Version 1.0
+ */
+@RestController
+public class PriceController {
+
+    @RequestMapping("/pricesubmit.do")
+    public Price showPrice(Price price){
+        System.out.println("good!");
+        System.out.println(price.toString());
+        return price;
+    }
+}

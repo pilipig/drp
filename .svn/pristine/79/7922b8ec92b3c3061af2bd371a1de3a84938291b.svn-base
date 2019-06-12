@@ -1,0 +1,21 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+
+import java.util.List;
+
+public interface MenuService {
+
+    R save(Menu menu);
+    List<String> queryByUid(int userid);
+
+    List<Menu> queryAll();
+    PageVo<Menu> queryByPage(int page, int limit);
+    List<Role> queryRole(int id);
+
+    //一级菜单
+    List<Menu> queryFirst();
+}

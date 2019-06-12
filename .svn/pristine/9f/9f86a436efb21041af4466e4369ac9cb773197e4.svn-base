@@ -1,0 +1,12 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.vo.R;
+
+import java.util.List;
+
+public interface MenuService {
+
+    R save(Menu menu);
+    List<String> queryByUid(int userid);
+}

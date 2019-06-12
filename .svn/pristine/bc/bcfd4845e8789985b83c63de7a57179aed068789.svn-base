@@ -1,0 +1,35 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.OrderDao;
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.service.OrderService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+    @Autowired
+    private OrderDao orderDao;
+
+    @Override
+    public R deleteOrder(int id) {
+        if (orderDao.deleteByID(id)>0){
+            return ResultUtil.setOK("删除成功");
+        }else {
+            return ResultUtil.setERROR("删除失败");
+        }
+    }
+
+    //分页
+    @Override
+    public PageVo<Order> queryByPage(int page, int limit) {
+        PageVo<Order> pageVo = new PageVo<>();
+        pageVo.setData(orderDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(orderDao.selectCount().intValue());
+        return pageVo;
+    }
+}

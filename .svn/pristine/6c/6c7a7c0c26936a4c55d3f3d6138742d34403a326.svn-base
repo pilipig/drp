@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>果喵喵_订单列表</title>
+    <link rel="stylesheet" href="../media/layui/css/layui.css" >
+    <script type="application/javascript" src="../media/js/jquery.min.js"></script>
+    <script type="application/javascript" src="../media/layui/layui.js"></script>
+
+</head>
+<body>
+<!--<div class="layui-container">-->
+    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>订单列表</legend>
+    </fieldset>-->
+
+
+
+    <form class="layui-form layui-form-pane" action="store/updatestore(url)" method="post" >
+        <div class="layui-inline">
+            <label class="layui-form-label">订单号</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="订单号"  placeholder="请输入订单号">
+            </div>
+        </div>&emsp;&emsp;
+    <div class="layui-inline">
+        <label class="layui-form-label">提交日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="数据库名字" id="date" placeholder="yyyy年MM月dd日">
+        </div>
+    </div>&emsp;&emsp;
+
+    <div class="layui-inline">
+        <label class="layui-form-label">订单状态</label>
+        <div class="layui-input-inline">
+            <select name="orderstatus" lay-filter="required" lay-search="">
+                <option value="">全部</option>
+                <option value="0">待付款</option>
+                <option value="1">待发货</option>
+                <option value="2">已发货</option>
+                <option value="3">已收货</option>
+                <option value="4">已关闭</option>
+            </select>
+        </div>
+    </div>
+
+        <div class="layui-form-item" >
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="select" id="select">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <table id="userdata" lay-filter="tableop"></table>
+    <script type="text/html" id="tarop">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">订单详情</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    
+<!--</div>-->
+
+<script type="application/javascript">
+    layui.use(['util','table'], function() {
+        var table = layui.table;
+        var util = layui.util;
+        //第一个实例
+        table.render({
+            elem: '#userdata'
+            , height: 315
+            , url: '../orderlist.do' //数据接口
+            ,type: "POST"
+            , page: true //开启分页
+            ,cellMinWidth: 150
+            , cols: [[ //表头
+                {type:'checkbox', fixed: 'left'}
+                ,{field: 'id', title: '编号',  sort: true, fixed: 'left',width:80}
+                ,{field: 'ordernum', title: '订单号'}
+                , {field: 'personname', title: '订购人姓名'}
+                , {field: 'personphone', title: '订购人电话'}
+                , {field: 'number', title: '订购数量'}
+                , {field: 'orderstatus', title: '订购状态', templet: function(d){
+                        var r="";
+                        var color="";
+                        switch (d.orderstatus){
+                            case 0: r="待付款";color="layui-bg-green";break;
+                            case 1: r="待发货";color="layui-bg-green";break;
+                            case 2: r="已发货";color="layui-bg-red";break;
+                            case 3: r="已收货";color="layui-bg-red";break;
+                            case 4: r="已关闭";color="layui-bg-red";break;
+                        }
+                        return "<label class='"+color+"'>"+r+"</label>";
+                    }
+                }
+
+                , {field: 'goodsprice', title: '商品单价'}
+                , {field: 'orderprice', title: '订购价钱'}
+                , {field: 'ordertime', title: '订购时间',templet:function(d){return util.toDateString(d.createdate*1000, "yyyy-MM-dd HH:mm:ss");}}
+                , {field: 'deliverytime', title: '配送时间',templet:function(d){return util.toDateString(d.createdate*1000, "yyyy-MM-dd HH:mm:ss");}}
+                , {field: 'province', title: '省'}
+                , {field: 'city', title: '市'}
+                , {field: 'district', title: '县区'}
+                , {field: 'address', title: '详细地址'}
+                , {field: 'phoneip', title: '订购人电话IP'}
+                , {field: 'phonetype', title: '订购人电话类型'}
+                , {field: 'remark', title: '订单备注'}
+                , {fixed:'right', title: '操作',toolbar:"#tarop",fixed: 'right',width:150}
+            ]]
+        });
+        //监听工具条
+        table.on('tool(tableop)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url: "../orderdel.do",
+                        type: "POST",
+                        data: "id=" + data.id,
+                        success: function (data) {
+                            if (data.code == 200) {
+                                obj.del();//删除表格中的对应行数据
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            } else {
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                //loadRoles(data);
+            }
+        });
+    });
+
+    layui.use( 'laydate', function(){
+        var laydate = layui.laydate
+        //日期
+        laydate.render({
+            elem: '#date'
+            ,format: 'yyyy年MM月dd日'
+        });
+
+    });
+
+    //监听提交
+    form.on('submit(select)', function(data){
+        var formDate = data.field;
+        console.log(formDate);
+        $.ajax({
+            url: '查询url',
+            type: 'POST',
+            data: formDate,
+            dataType: 'json',
+            success: function (data) {
+                /*if (data.code == 200) {
+                    layer.msg("编辑角色成功");
+                    //searchData();
+                } else {
+                    layer.msg("编辑角色失败");
+                }*/
+                /*if (data.success){
+                    top.layer.msg("商品发布成功了，等待管理员审核", {time:3000});
+                    // 清空表单 （“addGoodsForm”是表单的id）
+                    $("#addGoodsForm")[0].reset();
+                    layui.form.render();
+                }else{
+                    top.layer.msg("商品发布失败，请重新发布吧！", {time:3000});
+                    // 清空表单 （“addGoodsForm”是表单的id）
+                    $("#addGoodsForm")[0].reset();
+                    layui.form.render();
+                }*/
+            }
+        });
+        return false;
+    });
+
+</script>
+</body>
+
+</html>

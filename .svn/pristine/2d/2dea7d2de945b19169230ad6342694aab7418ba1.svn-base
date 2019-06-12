@@ -1,0 +1,39 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.RoleDao;
+import com.gmm.drp.dao.RoleMenuDao;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.entity.RoleMenu;
+import com.gmm.drp.service.RoleService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class RoleServiImpl implements RoleService {
+
+    @Autowired
+    private RoleDao rDao;
+    @Autowired
+    private RoleMenuDao roleMenuDao;
+
+    @Override
+    public R save(Role role) {
+        return ResultUtil.setRes(rDao.insert(role));
+    }
+
+    @Override
+    @Transactional
+    public R updatePermission(int[] pids, int rid) {
+        roleMenuDao.deleteByRid(rid);
+        for(int mid:pids){
+            RoleMenu roleMenu=new RoleMenu();
+            roleMenu.setMenuid(mid);
+            roleMenu.setRoleid(rid);
+            roleMenuDao.insert(roleMenu);
+        }
+        return ResultUtil.setOK("修改角色权限成功");
+    }
+}

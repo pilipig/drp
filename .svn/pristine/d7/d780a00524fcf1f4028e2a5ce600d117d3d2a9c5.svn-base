@@ -1,0 +1,15 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.UserRole;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+
+public interface UserRoleDao {
+
+    @Insert("insert into t_userrole (userid, roleid)values (#{userid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER})")
+    int insert(UserRole userRole);
+
+    @Delete("delete from t_userrole where userid=#{userid}")
+    int deleteByUid(Integer userid);
+
+}

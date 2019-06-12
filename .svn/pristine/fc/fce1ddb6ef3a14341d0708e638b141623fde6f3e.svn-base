@@ -1,0 +1,27 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.CatsDao;
+import com.gmm.drp.entity.Cats;
+import com.gmm.drp.service.CatsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @ClassName CatsServiceImpl
+ * @Description
+ * @Author
+ * @Date
+ * @Version 1.0
+ */
+@Service
+public class CatsServiceImpl implements CatsService {
+
+    @Autowired
+    private CatsDao catsDao;
+    @Override
+    public List<Cats> selectAll() {
+        return catsDao.selectAll();
+    }
+}

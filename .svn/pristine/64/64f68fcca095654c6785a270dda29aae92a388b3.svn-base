@@ -1,0 +1,84 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.PersonDao;
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.service.PersonService;
+import com.gmm.drp.vo.PageVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PersonServiceImpl implements PersonService {
+    @Autowired
+    private PersonDao personDao;
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户一览
+     */
+   /* @Override
+    public PageVo<Person>  personList() {
+        PageVo<Person> pageVo = new PageVo<Person>();
+        pageVo.setData(personDao.personList());
+        pageVo.setMsg("");
+        pageVo.setCode(0);
+        pageVo.setCount(personDao.selectCount().intValue());
+        return pageVo;
+    }*/
+
+   /**
+    *  @Author:fuyinggang
+    *  @Date:
+    *  @Depict:分页
+    */
+    @Override
+    public PageVo<Person> selectByPage(int page, int limit) {
+        PageVo<Person> pageVo = new PageVo<Person>();
+        pageVo.setData(personDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(personDao.selectCount().intValue());
+        return pageVo;
+    }
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户详情
+     */
+    @Override
+    public List<Person> personDetails(int id) {
+        return personDao.personDetails(id);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户喜欢
+     */
+    @Override
+    public List<Person> personLove(int pid) {
+        return personDao.personLove(pid);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户浏览记录
+     */
+    @Override
+    public List<Person> personRcord(int pid) {
+        return personDao.personRcord(pid);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户登录日志
+     */
+    @Override
+    public List<Person> personLoginLog(int pid) {
+        return personDao.personLoginLog(pid);
+    }
+}

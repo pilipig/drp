@@ -1,0 +1,25 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Cats;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface CatsDao {
+
+
+  //分页
+  @Select("select * from t_cats limit #{index},#{count}")
+  @ResultType(Cats.class)
+  List<Cats> selectByPage(@Param("index") int index, @Param("count") int count);
+
+  @Select("select COUNT(*) from t_cats")
+  @ResultType(long.class)
+  Long selectCount();
+
+  @Select("select * from t_cats")
+  @ResultType(Cats.class)
+  List<Cats> selectAll();
+}

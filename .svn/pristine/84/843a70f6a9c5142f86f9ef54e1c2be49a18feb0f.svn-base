@@ -1,0 +1,23 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Goods;
+import com.gmm.drp.entity.Price;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+
+import java.util.List;
+
+public interface GoodsService {
+    List<Goods> queryAll();
+    PageVo<Goods> queryByPage(int page,int limit);
+
+    R save(Goods goods);
+
+    int add(Goods goods);
+
+    List<?> showAttribute();
+
+    Price showPriceById(int id);
+
+    R delGoodsById(int id);
+}

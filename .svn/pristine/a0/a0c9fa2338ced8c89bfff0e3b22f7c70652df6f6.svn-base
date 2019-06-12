@@ -1,0 +1,167 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.vo.OrderDetailVo;
+import com.gmm.drp.vo.OrderExample;
+import com.gmm.drp.vo.OrderQueryVo;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface OrderDao {
+
+   /* int countByExample(OrderExample example);
+
+    int deleteByExample(OrderExample example);
+
+    int updateByExampleSelective(@Param("order") Order order, @Param("example") OrderExample example);
+
+    int updateByExample(@Param("order") Order order, @Param("example") OrderExample example);*/
+
+    //根据id查询
+    @Select("select * from t_order where id=#{id}")
+    Order selectById(Integer id);
+
+
+    //增加订单
+    @Insert("insert into t_order (ordernum, personname, personid, personphone, goodsnum,  paytype, paytime, ordertime,  deliverytime, receivetime, province, " +
+            "city, district, address,   orderstatus, goodsprice, orderprice,  phoneip, phonetype, remark, commenttime, deletestatus, actinfo " +
+            "values (#{ordernum}, #{personname},#{personid}, #{personphone}, #{goodsnum},#{paytype}, #{paytime}, #{ordertime},  #{deliverytime}, #{receivetime},#{province}," +
+            " #{city}, #{district}, #{address},   #{orderstatus}, #{goodsprice}, #{orderprice},#{phoneip}, " +
+            "#{phonetype}, #{remark},  #{commenttime}, #{deletestatus},#{actinfo})")
+    int insert(Order order);
+
+
+
+    //根据orderID查询
+    @Select("select o.*,p.personname from t_order o left join t_person p on o.personid = p.id where o.id =#{id}")
+    @ResultType(Order.class)
+    Order queryByOrderId(Object id);
+    //修改订单
+    @Update(" update t_order " +
+            "<set> " +
+            "<if test=\"ordernum != null\">ordernum = #{ordernum,jdbcType=VARCHAR}," +
+            " </if> " +
+            "<if test=\"personname != null\"> personname = #{personname,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"personid != null\"> personid = #{personid,jdbcType=INTEGER}, </if> " +
+            "<if test=\"personphone != null\"> personphone = #{personphone,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"goodsnum != null\">goodsnum = #{goodsnum,jdbcType=INTEGER}, </if> " +
+            "<if test=\"paytype != null\"> paytype = #{paytype,jdbcType=INTEGER}, </if> " +
+            "<if test=\"paytime != null\"> paytime = #{paytime,jdbcType=TIMESTAMP}, </if> " +
+            "<if test=\"ordertime != null\"> ordertime = #{ordertime,jdbcType=TIMESTAMP},</if> " +
+            "<if test=\"deliverytime != null\"> deliverytime = #{deliverytime,jdbcType=TIMESTAMP}, </if>" +
+            "<if test=\"receivetime != null\"> receivetime = #{receivetime,jdbcType=TIMESTAMP}, </if> " +
+            "<if test=\"province != null\"> province = #{province,jdbcType=VARCHAR},</if>" +
+            "<if test=\"city != null\"> city = #{city,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"district != null\"> district = #{district,jdbcType=VARCHAR}, </if>" +
+
+            "<if test=\"address != null\"> address = #{address,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"orderstatus != null\"> orderstatus = #{orderstatus,jdbcType=INTEGER}, </if> " +
+            "<if test=\"goodsprice != null\"> goodsprice = #{goodsprice,jdbcType=DECIMAL}, </if> " +
+            "<if test=\"orderprice != null\"> orderprice = #{orderprice,jdbcType=DECIMAL},</if>" +
+            "<if test=\"phoneip != null\">phoneip = #{phoneip,jdbcType=VARCHAR}, </if>" +
+            " <if test=\"phonetype != null\"> phonetype = #{phonetype,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"remark != null\"> remark = #{remark,jdbcType=VARCHAR}, </if> " +
+            "<if test=\"commenttime != null\"> commenttime = #{commenttime,jdbcType=TIMESTAMP}, </if> " +
+            "<if test=\"deletestatus != null\"> deletestatus = #{deletestatus,jdbcType=INTEGER},</if> " +
+            "<if test=\"actinfo != null\"> actinfo = #{actinfo,jdbcType=VARCHAR}, </if> " +
+            "</set> where id = #{id,jdbcType=INTEGER}")
+    int updateByIds(Order order);
+
+    /*@Update(" update t_order set ordernum = #{ordernum,jdbcType=VARCHAR}, personname = #{personname,jdbcType=VARCHAR}, personid = #{personid,jdbcType=INTEGER}," +
+            "personphone = #{personphone,jdbcType=VARCHAR},goodsnum = #{goodsnum,jdbcType=INTEGER},paytype = #{paytype,jdbcType=INTEGER},paystatus=#{paystatus,jdbcType=INTEGER} ,paytime = #{paytime,jdbcType=TIMESTAMP}, " +
+            "ordertime = #{ordertime,jdbcType=TIMESTAMP},deliverytime = #{deliverytime,jdbcType=TIMESTAMP},receivetime = #{receivetime,jdbcType=TIMESTAMP}," +
+            "confirmstatus = #{confirmstatus,jdbcType=INTEGER},province = #{province,jdbcType=VARCHAR},city = #{city,jdbcType=VARCHAR}," +
+            "district = #{district,jdbcType=VARCHAR}, takename = #{takename,jdbcType=VARCHAR}, takephone = #{takephone,jdbcType=VARCHAR}, " +
+            "address = #{address,jdbcType=VARCHAR}, orderstatus = #{orderstatus,jdbcType=INTEGER}, goodsprice = #{goodsprice,jdbcType=DECIMAL}," +
+            "orderprice = #{orderprice,jdbcType=DECIMAL},  phoneip = #{phoneip,jdbcType=VARCHAR}, phonetype = #{phonetype,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, " +
+            "commenttime = #{commenttime,jdbcType=TIMESTAMP}, deletestatus = #{deletestatus,jdbcType=INTEGER}, actinfo = #{actinfo,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}")
+    int updateById(Order order);*/
+
+
+
+    //删除订单
+    @Delete("delete from t_order where id=#{id}")
+    int deleteByID(int id);
+    //查询总数
+    @Select("select count(*) from t_order")
+    @ResultType(long.class)
+    Long selectCount();
+    //分页
+    //@Select("select id,personname,personphone,number,orderstatus,goodsprice,orderprice,ordertime,deliverytime,phoneip,phonetype,remark,CONCAT(province,city,district,address) as adds from t_order order by ordertime desc limit #{index},#{count}")
+
+
+    @Select("SELECT o.id,o.ordernum,o.personname,o.paytype,o.personid,o.personphone,o.goodsnum,o.ordertime,o.deliverytime,o.province,o.city,o.district,o.address,o.orderstatus,o.goodsprice,o.orderprice,o.phoneip,o.phonetype,o.remark ,oi.goodsname,oi.goodsprice,oi.goodsimage,oi.goodsnum from t_order o LEFT JOIN t_orderitem oi  ON o.id = oi.orderid order by ordertime desc limit #{index},#{count}")
+    //@Select("SELECT id,ordernum,personname,personid,personphone,goodsnum,ordertime,deliverytime,province,city,district,address,orderstatus,goodsprice,orderprice,phoneip,phonetype,remark from t_order  order by ordertime desc limit #{index},#{count}")
+    @ResultType(Order.class)
+    List<Order> selectByPage(@Param("index") int index,@Param("count") int count);
+
+
+
+
+    /**
+     * 获取订单详情
+     */
+    //包含操作人员历时
+    /*@Select("SELECT o.*, oi.id, oi.orderid, oi.ordernum, oi.goodsid , oi.goodsname, oi.goodsprice, oi.goodsimage,  oi.goodsnum , oi.promotionname , oi.goodsquality, oh.id, oh.operateman, oh.createtime, oh.orderstatus, oh.info" +
+            " FROM t_order o LEFT JOIN t_orderitem oi ON o.id = oi.orderid LEFT JOIN t_orderhistory oh ON o.id = oh.orderid WHERE o.id = #{id} ORDER BY oi.id ASC,oh.createtime DESC")*/
+    @Select("SELECT o.*, oi.id, oi.orderid, oi.ordernum, oi.goodsid , oi.goodsname, oi.goodsprice, oi.goodsimage,  oi.goodsnum , oi.promotionname , oi.goodsquality FROM t_order o LEFT JOIN t_orderitem oi ON o.id = oi.orderid WHERE o.id = #{id}")
+    OrderDetailVo getDetail(@Param("id") int id);
+
+    //批量发货
+    /*@Update("update t_order set ordernum=#{ordernum} where id=#{id}")
+    int delivery(@Param("list") List<Order> orders);*/
+
+
+   /* *//**
+     * 条件查询订单
+     *//*
+    @Select("SELECT * FROM t_order WHERE deletestatus = 0\n" +
+            "    <if test=\"queryParam.orderNum!=null and queryParam.orderNum!=''\">\n" +
+            "      AND ordernum = #{queryParam.orderNum}\n" +
+            "    </if>\n" +
+            "    <if test=\"queryParam.orderStatus!=null\">\n" +
+            "      AND `orderstatus` = #{queryParam.orderStatus}\n" +
+            "    </if>\n" +
+            "    <if test=\"queryParam.orderTime!=null and queryParam.orderTime!=''\">\n" +
+            "      AND ordertime LIKE concat(#{queryParam.orderTime},\"%\")\n" +
+            "    </if>\n" +
+            "    <if test=\"queryParam.receiverKeyword!=null and queryParam.receiverKeyword!=''\">\n" +
+            "      AND (\n" +
+            "      takename LIKE concat(\"%\",#{queryParam.receiverKeyword},\"%\")\n" +
+            "      OR takephone LIKE concat(\"%\",#{queryParam.receiverKeyword},\"%\")\n" +
+            "      )\n" +
+            "    </if>")
+    @ResultType(Order.class)
+    List<Order> getList(@Param("queryParam") OrderQueryVo queryParam);
+
+    *//**
+     * 批量发货
+     *//*
+    @Update("UPDATE t_order SET ordernum = CASE id\n" +
+            "    <foreach collection=\"list\" item=\"item\">\n" +
+            "      WHEN #{item.orderId} THEN #{item.ordernum}\n" +
+            "    </foreach> END,\n" +
+            "    deliverytime = CASE id\n" +
+            "    <foreach collection=\"list\" item=\"item\">\n" +
+            "      WHEN #{item.orderId} THEN now()\n" +
+            "    </foreach> END,\n" +
+            "    `orderstatus` = CASE id\n" +
+            "    <foreach collection=\"list\" item=\"item\">\n" +
+            "      WHEN #{item.orderId} THEN 2\n" +
+            "    </foreach>\n" +
+            "    END\n" +
+            "    WHERE\n" +
+            "    id IN\n" +
+            "    <foreach collection=\"list\" item=\"item\" separator=\",\" open=\"(\" close=\")\">\n" +
+            "      #{item.orderId}\n" +
+            "    </foreach>\n" +
+            "    AND `orderstatus` = 1")
+    int delivery(@Param("list") List<Order> orders);*/
+
+
+
+
+
+}

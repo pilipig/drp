@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmm.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.gmm.entity.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rname" jdbcType="VARCHAR" property="rname" />
+    <result column="rinfo" jdbcType="VARCHAR" property="rinfo" />
+    <result column="createuserid" jdbcType="INTEGER" property="createuserid" />
+    <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    <result column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="posid" jdbcType="INTEGER" property="posid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, rname, rinfo, createuserid, parentid, deptid, createdate, posid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gmm.entity.Role">
+    insert into t_role ( rname, rinfo,createuserid, deptid,createdate)values ( #{rname,jdbcType=VARCHAR}, #{rinfo,jdbcType=VARCHAR}, #{createuserid,jdbcType=INTEGER},#{deptid,jdbcType=INTEGER},#{createdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gmm.entity.Role">
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="rname != null">
+        rname,
+      </if>
+      <if test="rinfo != null">
+        rinfo,
+      </if>
+      <if test="createuserid != null">
+        createuserid,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+      <if test="deptid != null">
+        deptid,
+      </if>
+      <if test="createdate != null">
+        createdate,
+      </if>
+      <if test="posid != null">
+        posid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rname != null">
+        #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rinfo != null">
+        #{rinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null">
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="posid != null">
+        #{posid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmm.entity.Role">
+    update t_role
+    <set>
+      <if test="rname != null">
+        rname = #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rinfo != null">
+        rinfo = #{rinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null">
+        createuserid = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null">
+        deptid = #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="posid != null">
+        posid = #{posid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gmm.entity.Role">
+    update t_role
+    set rname = #{rname,jdbcType=VARCHAR},
+      rinfo = #{rinfo,jdbcType=VARCHAR},
+      createuserid = #{createuserid,jdbcType=INTEGER},
+      parentid = #{parentid,jdbcType=INTEGER},
+      deptid = #{deptid,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP},
+      posid = #{posid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

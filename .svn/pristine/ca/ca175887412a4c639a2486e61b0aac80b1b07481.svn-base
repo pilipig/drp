@@ -1,0 +1,64 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.UserDao;
+import com.gmm.drp.dao.UserLogDao;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserLog;
+import com.gmm.drp.service.UserService;
+import com.gmm.drp.utils.PassUtil;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+@Service
+public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserDao uDao;
+    @Autowired
+    private UserLogDao userLogDao;
+
+
+
+   /* @Override
+    public R save(User user) {
+        user.setPassword(PassUtil.md5(user.getPassword()));
+        return ResultUtil.setRes(uDao.insert(user));
+    }*/
+
+    @Override
+    public R save(String username, String password) {
+        String s_password = PassUtil.md5(password);
+        return ResultUtil.setRes(uDao.insert(username,s_password));
+    }
+
+    @Override
+    public R checkName(String username) {
+        User user = uDao.selectByName(username);
+        if (user == null){
+            //可用
+            return ResultUtil.setOK("用户名可用");
+        }else {
+            return ResultUtil.setERROR("用户名不可用");
+        }
+    }
+
+    @Override
+    public User login(String username, String password) {
+        User user = uDao.selectByName(username);
+       if(user!=null){
+            //校验密码
+            if(Objects.equals(user.getPassword(),PassUtil.md5(password))){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void saveLog(UserLog userLog) {
+        userLogDao.insert(userLog);
+    }
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoveJob_角色列表</title>
+    <link rel="stylesheet" href="media/layui/css/layui.css">
+    <script type="application/javascript" src="media/js/jquery.min.js"></script>
+    <script type="application/javascript" src="media/layui/layui.js"></script>
+</head>
+<body>
+<!--<div class="layui-container">-->
+    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>角色列表</legend>
+    </fieldset>-->
+
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-norma" onclick="addAuth()">
+            <i class="layui-icon">&#xe654;</i>添加角色
+        </button>
+    </div>
+
+
+   <!-- <script type="text/html" id="tarop">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">查看角色权限</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>-->
+   <!-- <table id="userdata" lay-filter="tbop"></table>-->
+    <div class="layui-row">
+        <div class="layui-col-md11">
+            <!--<table id="tbdata" lay-filter="tbop"></table>-->
+            <table id="userdata" lay-filter="tbop"></table>
+            <script type="text/html" id="tarop">
+                <a class="layui-btn layui-btn-mini" lay-event="edit">编辑菜单</a>
+                <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+<!--</div>-->
+
+<script type="application/javascript">
+
+    var tableIns;
+    var form;
+    layui.use(['table','util','form'], function() {
+        var table = layui.table;
+        var util = layui.util;
+        form = layui.form;
+        //第一个实例
+        tableIns = table.render({
+            elem: '#userdata'
+            , height: 315
+            , url: 'rolelist.do' //数据接口
+            , page: true //开启分页
+            ,cellMinWidth: 100
+            , cols: [[ //表头
+                {type:'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID',  sort: true, fixed: 'left',width:80}
+                , {field: 'rname', title: '角色名'}
+                , {field: 'rinfo', title: '说明'}
+                , {field: 'flag', title: '状态', templet: function(d){
+                    var r="";
+                    var color="";
+                    switch (d.flag){
+                        case 1: r="有效";color="layui-bg-green";break;
+                        case 2: r="无效";color="layui-bg-red";break;
+                    }
+                    return "<label class='"+color+"'>"+r+"</label>";
+                },width:80
+                }
+                , {field: 'createdate', title: '创建时间',templet:function(d){return util.toDateString(d.createdate*1000, "yyyy-MM-dd HH:mm:ss");}}
+                , {fixed:'right', title: '操作',toolbar:"#tarop",fixed: 'right'}
+            ]]
+        });
+        //监听工具条
+        table.on('tool(tbop)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('是否确认删除角色?', function (index) {
+                    $.ajax({
+                        url: "roledel.do",
+                        type: "POST",
+                        data: "id=" + data.id,
+                        success: function (data) {
+                            if (data.code == 200) {
+                                obj.del();//删除表格中的对应行数据
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            } else {
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                            window.location.reload();
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                loadRoles(data);
+            }
+        });
+    });
+
+    function addAuth() {
+        layer.open({
+            area: ['500px', '380px'],
+            title: '角色页面新增',
+            type: 1,
+            content:  $('#dvlay'), //这里content是一个普通的String
+            btn: ['新增', '取消'],
+            yes: function(index, layero){
+                $.ajax({
+                    url: "roleadd.do",
+                    method:"post",
+                    data: $("#fm1").serialize(),
+                    success: function (obj) {
+                        if (obj.code == 200) {
+                            layer.msg("新增角色成功");
+                            searchData();
+                        } else {
+                            layer.msg("新增角色成功");
+                        }
+                    }
+                })
+                layer.close(index);
+            },cancel: function(){
+            }
+        });
+    }
+
+
+    function searchData() {
+        tableIns.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                no: $("#no").val()
+                , flag: $("#fg").val()
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+    //修改
+    function changeRole() {
+        $.ajax({
+            url: "rolemenuupdate.do",
+            data: $("#fm11").serialize(),
+            success: function (obj) {
+                if (obj.code == 200) {
+                    layer.msg("编辑菜单成功");
+                } else {
+                    layer.msg("编辑菜单失败");
+                }
+                layer.closeAll();
+            }
+        })
+    }
+
+    function loadRoles(user) {
+        $("#uid").val(user.id);
+        //$("#rname").val(user.rname);
+        $.get("menuall.do", null, function (arr) {
+            $("#dv1").html("");
+            for (var i = 0; i < arr.length; i++) {
+                $("#dv1").append(" <input type=\"checkbox\" class='ridcb' id=\"mids"+arr[i].id+"\" name=\"mids\" value=\""+arr[i].id+"\" title=\""+arr[i].name+"\" >");
+                /*if(user.mids.indexOf(arr[i].id)>-1){
+                    $("#dv1").append("<input type=\"checkbox\" name=\"mids\" value='" + arr[i].id + "' title=\"" + arr[i].info + "\" checked>");
+                }else{
+                    $("#dv1").append("<input type=\"checkbox\" name=\"mids\" value='" + arr[i].id + "' title=\"" + arr[i].info + "\">");
+                }*/
+            }
+            form.render();
+            layer.open({
+                area: ['500px', '300px'],
+                title: '用户角色编辑',
+                type: 1,
+                content:  $('#dvlay1'), //这里content是一个普通的String
+                btn: ['确认', '取消'],
+                yes: function(index, layero){
+                    $.ajax({
+                        url: "rolemenuupdate.do",
+                        data: $("#fm11").serialize(),
+                        success: function (obj) {
+                            if (obj.code == 200) {
+                                layer.msg("编辑菜单成功");
+                                searchData();
+                            } else {
+                                layer.msg("编辑菜单失败");
+                            }
+                        }
+                    })
+                    layer.close(index);
+                },cancel: function(){
+                }
+            });
+        })
+    }
+</script>
+</body>
+<div style="display: none;margin-top: 10px;width: 480px" id="dvlay">
+    <form class="layui-form"  action="menuadd.do" method="post" id="fm1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="rname" lay-verify="required" placeholder="请输入角色名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色说明：</label>
+            <div class="layui-input-block">
+                <input type="text" name="rinfo" lay-verify="required" placeholder="请输入角色说明" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="display: none;margin-top: 10px;width: 480px" id="dvlay1">
+    <form id="fm11" class="layui-form layui-form-pane" >
+        <div class="layui-form-item" pane >
+            <label class="layui-form-label">ID：</label>
+            <div class="layui-input-inline">
+                <input id="uid" name="id" readonly class="layui-input">
+            </div>
+        </div>
+        <!--<div class="layui-form-item" pane >
+            <label class="layui-form-label">角色名：</label>
+            <div class="layui-input-inline">
+                <input id="rname" name="id" readonly class="layui-input">
+            </div>
+        </div>-->
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label">菜单：</label>
+            <div class="layui-input-block">
+            <div class="layui-input-inline" id="dv1">
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
+</html>

@@ -1,0 +1,11 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.vo.R;
+
+public interface RoleService {
+
+    R save(Role role);
+    //更新角色权限
+    R updatePermission(int[] pids,int rid);
+}

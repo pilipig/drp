@@ -1,0 +1,27 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Menu;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface MenuDao {
+
+    @Insert("insert into t_menu (id, name, url, icon, type, parentid, createdate, status)values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}," +
+            " #{icon,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER},#{createdate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})")
+    @Options(useGeneratedKeys = true)
+    int insert(Menu menu);
+
+    @Select("select * from t_menu where id=#{id}")
+    Menu selectById(Integer id);
+
+    //查询用户的权限
+    @Select("SELECT m.name,m.icon from t_menu m LEFT JOIN t_rolemenu rm on m.id=rm.menuid LEFT JOIN t_userrole ur on rm.roleid=ur.roleid where ur.userid=#{userid}")
+    @ResultType(String.class)
+    List<String> selectByUid(int userid);
+
+
+}

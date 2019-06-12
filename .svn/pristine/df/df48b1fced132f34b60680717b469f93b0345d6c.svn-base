@@ -1,0 +1,142 @@
+package com.gmm.drp.entity;
+
+import java.io.Serializable;
+
+/**
+ * @ClassName Price
+ * @Description 价格系统接收实体类
+ * @Author baohaipeng
+ * @Date 2019-04-10
+ * @Version 1.0
+ */
+public class Price implements Serializable {
+    private Double num1_min;
+    private Double num1_max;
+    private Double price1;
+
+    private Double num2_min;
+    private Double num2_max;
+    private Double price2;
+
+    private Double num3_min;
+    private Double num3_max;
+    private Double price3;
+
+    private Double num4_min;
+    private Double num4_max;
+    private Double price4;
+
+    public Double getNum1_min() {
+        return num1_min;
+    }
+
+    public void setNum1_min(Double num1_min) {
+        this.num1_min = num1_min;
+    }
+
+    public Double getNum1_max() {
+        return num1_max;
+    }
+
+    public void setNum1_max(Double num1_max) {
+        this.num1_max = num1_max;
+    }
+
+    public Double getPrice1() {
+        return price1;
+    }
+
+    public void setPrice1(Double price1) {
+        this.price1 = price1;
+    }
+
+    public Double getNum2_min() {
+        return num2_min;
+    }
+
+    public void setNum2_min(Double num2_min) {
+        this.num2_min = num2_min;
+    }
+
+    public Double getNum2_max() {
+        return num2_max;
+    }
+
+    public void setNum2_max(Double num2_max) {
+        this.num2_max = num2_max;
+    }
+
+    public Double getPrice2() {
+        return price2;
+    }
+
+    public void setPrice2(Double price2) {
+        this.price2 = price2;
+    }
+
+    public Double getNum3_min() {
+        return num3_min;
+    }
+
+    public void setNum3_min(Double num3_min) {
+        this.num3_min = num3_min;
+    }
+
+    public Double getNum3_max() {
+        return num3_max;
+    }
+
+    public void setNum3_max(Double num3_max) {
+        this.num3_max = num3_max;
+    }
+
+    public Double getPrice3() {
+        return price3;
+    }
+
+    public void setPrice3(Double price3) {
+        this.price3 = price3;
+    }
+
+    public Double getNum4_min() {
+        return num4_min;
+    }
+
+    public void setNum4_min(Double num4_min) {
+        this.num4_min = num4_min;
+    }
+
+    public Double getNum4_max() {
+        return num4_max;
+    }
+
+    public void setNum4_max(Double num4_max) {
+        this.num4_max = num4_max;
+    }
+
+    public Double getPrice4() {
+        return price4;
+    }
+
+    public void setPrice4(Double price4) {
+        this.price4 = price4;
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "num1_min=" + num1_min +
+                ", num1_max=" + num1_max +
+                ", price1=" + price1 +
+                ", num2_min=" + num2_min +
+                ", num2_max=" + num2_max +
+                ", price2=" + price2 +
+                ", num3_min=" + num3_min +
+                ", num3_max=" + num3_max +
+                ", price3=" + price3 +
+                ", num4_min=" + num4_min +
+                ", num4_max=" + num4_max +
+                ", price4=" + price4 +
+                '}';
+    }
+}

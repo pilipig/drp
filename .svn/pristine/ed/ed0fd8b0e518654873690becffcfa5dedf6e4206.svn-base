@@ -1,0 +1,146 @@
+package com.gmm.drp.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * @ClassName Goods
+ * @Description
+ * @Author baohaipeng
+ * @Date
+ * @Version 1.0
+ */
+public class Goods implements Serializable {
+    private Integer id;
+
+    private String gname;
+
+    private String gadd;
+
+    private String gimg;
+
+    private Date saletime;
+
+    private Date shelftime;
+
+    private String gdesc;
+
+    private Integer iseventmer;
+
+    private String price;
+
+    private BigDecimal marketprice;
+
+    private Integer gstock;
+
+    private Integer sequence;
+
+    private Integer issale;
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
+    public Integer getIssale() {
+        return issale;
+    }
+
+    public void setIssale(Integer issale) {
+        this.issale = issale;
+    }
+
+    public Integer getIseventmer() {
+        return iseventmer;
+    }
+
+    public void setIseventmer(Integer iseventmer) {
+        this.iseventmer = iseventmer;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getGname() {
+        return gname;
+    }
+
+    public void setGname(String gname) {
+        this.gname = gname == null ? null : gname.trim();
+    }
+
+    public String getGadd() {
+        return gadd;
+    }
+
+    public void setGadd(String gadd) {
+        this.gadd = gadd == null ? null : gadd.trim();
+    }
+
+    public String getGimg() {
+        return gimg;
+    }
+
+    public void setGimg(String gimg) {
+        this.gimg = gimg == null ? null : gimg.trim();
+    }
+
+    public Date getSaletime() {
+        return saletime;
+    }
+
+    public void setSaletime(Date saletime) {
+        this.saletime = saletime;
+    }
+
+    public Date getShelftime() {
+        return shelftime;
+    }
+
+    public void setShelftime(Date shelftime) {
+        this.shelftime = shelftime;
+    }
+
+    public String getGdesc() {
+        return gdesc;
+    }
+
+    public void setGdesc(String gdesc) {
+        this.gdesc = gdesc == null ? null : gdesc.trim();
+    }
+
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price == null ? null : price.trim();
+    }
+
+    public BigDecimal getMarketprice() {
+        return marketprice;
+    }
+
+    public void setMarketprice(BigDecimal marketprice) {
+        this.marketprice = marketprice;
+    }
+
+    public Integer getGstock() {
+        return gstock;
+    }
+
+    public void setGstock(Integer gstock) {
+        this.gstock = gstock;
+    }
+
+}

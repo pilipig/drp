@@ -1,0 +1,96 @@
+package com.gmm.drp.entity;
+
+import java.util.Date;
+
+public class Person {
+    private Integer id;
+    private String shopname;
+    private String personname;
+    private String sex;
+    private String birthday;
+    private String phone;
+    private String address;
+    private String phonetype;
+    private Date createdate;
+    private String phoneip;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    public String getPersonname() {
+        return personname;
+    }
+
+    public void setPersonname(String personname) {
+        this.personname = personname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhonetype() {
+        return phonetype;
+    }
+
+    public void setPhonetype(String phonetype) {
+        this.phonetype = phonetype;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public String getPhoneip() {
+        return phoneip;
+    }
+
+    public void setPhoneip(String phoneip) {
+        this.phoneip = phoneip;
+    }
+}

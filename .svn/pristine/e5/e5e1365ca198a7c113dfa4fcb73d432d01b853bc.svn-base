@@ -1,0 +1,59 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.PersonDao;
+import com.gmm.drp.dao.UserDao;
+import com.gmm.drp.dao.UserLogDao;
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserLog;
+import com.gmm.drp.service.PersonService;
+import com.gmm.drp.service.UserService;
+import com.gmm.drp.utils.PassUtil;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
+@Service
+public class PersonServiceImpl implements PersonService {
+    @Autowired
+    private PersonDao personDao;
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户一览
+     */
+   /* @Override
+    public PageVo<Person>  personList() {
+        PageVo<Person> pageVo = new PageVo<Person>();
+        pageVo.setData(personDao.personList());
+        pageVo.setMsg("");
+        pageVo.setCode(0);
+        pageVo.setCount(personDao.selectCount().intValue());
+        return pageVo;
+    }*/
+
+   /**
+    *  @Author:fuyinggang
+    *  @Date:
+    *  @Depict:分页
+    */
+    @Override
+    public PageVo<Person> selectByPage(int page, int limit) {
+        PageVo<Person> pageVo = new PageVo<Person>();
+        pageVo.setData(personDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(personDao.selectCount().intValue());
+        return pageVo;
+    }
+
+    @Override
+    public List<Person> personDetails(int id) {
+        return personDao.personDetails(id);
+    }
+}

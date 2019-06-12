@@ -1,0 +1,22 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.User;
+import org.apache.ibatis.annotations.*;
+
+public interface UserDao {
+
+
+    /*@Insert("insert into t_user (no, username,password, depid, createdate,flag)values ( #{no,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, " +
+            "#{depid,jdbcType=INTEGER}, now(),1")
+    int insert(User user);*/
+    @Insert("insert into t_user (username,password)values ( #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})")
+    int insert(String username, String password);
+
+    @Select("select * from t_user where no=#{username} or username =#{username}")
+    @ResultType(User.class)
+    User selectByName(String name);
+
+    @Update("update t_user set password=#{newpass} where id=#{uid} and password=#{oldpass}")
+    int updatePass(@Param("uid") int uid, @Param("oldpass") String oldpass, @Param("newpass") String newPass);
+
+}

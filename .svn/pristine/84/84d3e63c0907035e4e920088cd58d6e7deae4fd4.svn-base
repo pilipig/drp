@@ -1,0 +1,17 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.RoleMenu;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+
+public interface RoleMenuDao {
+    @Delete("delete from t_rolemenu where roleid=#{roleid}")
+    int deleteByRid(Integer rolesid);
+
+    @Insert("insert into t_rolemenu ( roleid, menuid)values (#{roleid,jdbcType=INTEGER}, #{menuid,jdbcType=INTEGER})")
+    int insert(RoleMenu record);
+
+
+
+
+}

@@ -1,0 +1,15 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+
+public interface OrderService {
+
+
+    //删除
+    R deleteOrder(int id);
+    //分页
+    PageVo<Order> queryByPage(int page, int limit);
+
+}

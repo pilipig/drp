@@ -1,0 +1,30 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Goods;
+import com.gmm.drp.service.GoodsService;
+import com.gmm.drp.vo.PageVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * @ClassName GoodsController
+ * @Description
+ * @Author baohaipeng
+ * @Date
+ * @Version 1.0
+ */
+@RestController
+public class GoodsController {
+    @Autowired
+    private GoodsService goodsService;
+
+    @RequestMapping("goodslist.do")
+    @ResponseBody
+    public PageVo<Goods> list(int page,int limit){
+        return goodsService.queryByPage(page, limit);
+    }
+}

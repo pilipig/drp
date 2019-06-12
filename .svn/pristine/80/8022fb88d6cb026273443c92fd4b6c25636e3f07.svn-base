@@ -1,0 +1,157 @@
+package com.gmm.drp.manager;
+
+import com.gmm.drp.dao.GoodsDao;
+import com.gmm.drp.entity.Goods;
+import com.gmm.drp.entity.Price;
+import com.gmm.drp.service.GoodsService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * @ClassName GoodsServiceImpl
+ * @Description
+ * @Author baohaipeng
+ * @Date
+ * @Version 1.0
+ */
+@Service
+public class GoodsServiceImpl implements GoodsService {
+    @Autowired
+    private GoodsDao goodsDao;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @Override
+    public R delGoodsById(int id) {
+        return ResultUtil.setRes(goodsDao.delById(id));
+    }
+
+
+    /**
+     * 置顶
+     * @param id
+     * @return
+     */
+    @Override
+    public R setTop(int id) {
+        return ResultUtil.setRes((goodsDao.setTop(id)));
+    }
+
+
+    /**
+     * 保存
+     * @param goods
+     * @return
+     */
+    @Override
+    public R save(Goods goods) {
+        return ResultUtil.setRes(goodsDao.add(goods));
+    }
+
+    @Override
+    public List<Goods> queryAll() {
+        return goodsDao.selectAll();
+    }
+
+    /**
+     * 分页
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public PageVo<Goods> queryByPage(int page, int limit) {
+        PageVo<Goods> pageVo = new PageVo<Goods>();
+        pageVo.setData(goodsDao.selectByPage((page-1)*limit,limit));
+        pageVo.setCode(0);
+        pageVo.setCount(goodsDao.selectCount().intValue());
+        return pageVo;
+    }
+
+    @Override
+    public int add(Goods goods) {
+
+        return goodsDao.add(goods);
+    }
+
+    /*@Override
+    public int insert(Goods goods) {
+
+        return null;
+    }*/
+
+    @Override
+    public List<?> showAttribute() {
+
+        return goodsDao.showAttribute();
+    }
+
+    /**
+     * 拆分t_goods表中的price字段，提取其中的阶梯定价关键数据
+     *
+     * @param id
+     * @return price对象
+     */
+    @Override
+    public Price showPriceById(int id) {
+        Price price = new Price();
+        BigDecimal bigDecimal;
+        double[] numlist = new double[4];//存放[num1_min,num2_min,num3_min,num4_min]
+        BigDecimal[] pricelist = new BigDecimal[4]; //存放[price1,price2,price3,price4]
+        String str = goodsDao.showPriceById(id);
+        String[] strings = str.split("\\|");
+
+        //未实行阶梯定价的情况
+        if (strings.length == 1) {
+            str = str.substring(5, str.length());
+            bigDecimal = new BigDecimal(str);
+            price.setPrice0(bigDecimal);
+        } else {
+            //实行阶梯定价的情况
+            for (int i = 0; i < strings.length; i++) {
+                System.out.println(strings[i]);
+                String[] num = strings[i].split("<=");
+
+                numlist[i] = Double.valueOf(num[0]);
+                int idx = num[1].lastIndexOf(":");
+                str = num[1].substring(idx + 1, num[1].length());
+                bigDecimal = new BigDecimal(str);
+                pricelist[i] = bigDecimal;
+            }
+        }
+
+        //将num和price封装进Price实体类中
+        price.setNum1_min(numlist[0]);
+        price.setNum2_min(numlist[1]);
+        price.setNum3_min(numlist[2]);
+        price.setNum4_min(numlist[3]);
+        price.setPrice1(pricelist[0]);
+        price.setPrice2(pricelist[1]);
+        price.setPrice3(pricelist[2]);
+        price.setPrice4(pricelist[3]);
+
+        //循环输出numlist和pricelist（测试代码）
+       /* for (int m = 0; m < numlist.length; m++) {
+            System.out.println("第" + m + "个数量是----" + numlist[m]);
+        }
+
+        for (int p = 0; p < pricelist.length; p++) {
+            System.out.println("第" + p + "个数量是----" + pricelist[p]);
+        }
+
+*/
+        System.out.println(price.getNum1_min());
+        return price;
+    }
+
+
+}

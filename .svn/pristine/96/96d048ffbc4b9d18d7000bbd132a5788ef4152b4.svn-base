@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品列表</title>
+    <link rel="stylesheet" href="../media/layui/css/layui.css">
+    <script type="application/javascript" src="../media/js/jquery.min.js"></script>
+    <script type="application/javascript" src="../media/layui/layui.js"></script>
+
+
+</head>
+<body>
+<div class="layui-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>产品列表</legend>
+
+        <div class="layui-field-box" >
+
+            <form class="layui-form" action="submitprice.do" method="post" id="fm1" >
+
+                <!--第一个-->
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">①</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num1_min" name="num1_min" placeholder="起点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">≤ 发货量 <</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num1_max" name="num1_max" placeholder="终点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="price1" name="price1" placeholder="￥" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!--第二个-->
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">②</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num2_min" name="num2_min" placeholder="起点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">≤ 发货量 <</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num2_max" name="num2_max" placeholder="终点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="price2" name="price2" placeholder="￥" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--第三个-->
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">③</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num3_min" name="num3_min" name="num3_min" placeholder="起点"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">≤ 发货量 <</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num3_max" name="num3_max" placeholder="终点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="price3" name="price3" placeholder="￥" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!--第四个-->
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">④</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num4_min" name="num4_min" placeholder="起点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">≤ 发货量 <</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="num4_max" name="num4_max" placeholder="终点" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="price4" name="price4" placeholder="￥" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!--生效开关-->
+
+                <label class="layui-form-label">是否生效</label>
+
+
+            </form>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                    <button class="layui-btn" type="submit" onclick="submitprice()">保存修改</button>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+
+
+</div>
+
+</body>
+
+</html>

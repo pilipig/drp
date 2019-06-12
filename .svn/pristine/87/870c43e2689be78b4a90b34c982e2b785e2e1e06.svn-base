@@ -1,0 +1,28 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Menu;
+import com.gmm.drp.entity.Role;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserRole;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import com.gmm.drp.vo.TreeRoot;
+
+import java.util.List;
+
+public interface RoleService {
+
+    //新增角色
+    R save(Role role);
+
+    //查询所有角色
+    List<Role> queryAll();
+
+    PageVo<Role> queryByPage(int page, int limit);
+
+    //修改角色对应的权限
+    boolean updateMenu(int rid, int[] mids);
+    List<Menu> queryMenuByRid(int roleid);
+    List<TreeRoot> queryMenus();
+
+}

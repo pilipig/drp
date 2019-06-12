@@ -1,0 +1,28 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.service.OrderService;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class OrderController {
+    @Autowired
+    private OrderService orderService;
+
+    @RequestMapping("orderlist.do")
+    //@ResponseBody
+    public PageVo<Order> list(int page, int limit){
+        return orderService.queryByPage(page,limit);
+    }
+
+    //删除
+    @RequestMapping("orderdel.do")
+    @ResponseBody
+    public R delete(int id){
+        return orderService.deleteOrder(id);
+    }
+}

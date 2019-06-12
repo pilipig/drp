@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmm.dao.OrderItemDao">
+  <resultMap id="BaseResultMap" type="com.gmm.entity.OrderItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderid" jdbcType="INTEGER" property="orderid" />
+    <result column="ordernum" jdbcType="VARCHAR" property="ordernum" />
+    <result column="goodsid" jdbcType="INTEGER" property="goodsid" />
+    <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+    <result column="goodsprice" jdbcType="DECIMAL" property="goodsprice" />
+    <result column="goodsimage" jdbcType="VARCHAR" property="goodsimage" />
+    <result column="goodsnum" jdbcType="VARCHAR" property="goodsnum" />
+    <result column="promotionname" jdbcType="VARCHAR" property="promotionname" />
+    <result column="goodsquality" jdbcType="VARCHAR" property="goodsquality" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, orderid, ordernum, goodsid, goodsname, goodsprice, goodsimage, goodsnum, promotionname, 
+    goodsquality
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_orderitem
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_orderitem
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gmm.entity.OrderItem">
+    insert into t_orderitem (id, orderid, ordernum, 
+      goodsid, goodsname, goodsprice, 
+      goodsimage, goodsnum, promotionname, 
+      goodsquality)
+    values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR}, 
+      #{goodsid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, #{goodsprice,jdbcType=DECIMAL}, 
+      #{goodsimage,jdbcType=VARCHAR}, #{goodsnum,jdbcType=VARCHAR}, #{promotionname,jdbcType=VARCHAR}, 
+      #{goodsquality,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gmm.entity.OrderItem">
+    insert into t_orderitem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+      <if test="goodsid != null">
+        goodsid,
+      </if>
+      <if test="goodsname != null">
+        goodsname,
+      </if>
+      <if test="goodsprice != null">
+        goodsprice,
+      </if>
+      <if test="goodsimage != null">
+        goodsimage,
+      </if>
+      <if test="goodsnum != null">
+        goodsnum,
+      </if>
+      <if test="promotionname != null">
+        promotionname,
+      </if>
+      <if test="goodsquality != null">
+        goodsquality,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null">
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null">
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null">
+        #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsimage != null">
+        #{goodsimage,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        #{goodsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionname != null">
+        #{promotionname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsquality != null">
+        #{goodsquality,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmm.entity.OrderItem">
+    update t_orderitem
+    <set>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null">
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null">
+        goodsname = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null">
+        goodsprice = #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsimage != null">
+        goodsimage = #{goodsimage,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        goodsnum = #{goodsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionname != null">
+        promotionname = #{promotionname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsquality != null">
+        goodsquality = #{goodsquality,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gmm.entity.OrderItem">
+    update t_orderitem
+    set orderid = #{orderid,jdbcType=INTEGER},
+      ordernum = #{ordernum,jdbcType=VARCHAR},
+      goodsid = #{goodsid,jdbcType=INTEGER},
+      goodsname = #{goodsname,jdbcType=VARCHAR},
+      goodsprice = #{goodsprice,jdbcType=DECIMAL},
+      goodsimage = #{goodsimage,jdbcType=VARCHAR},
+      goodsnum = #{goodsnum,jdbcType=VARCHAR},
+      promotionname = #{promotionname,jdbcType=VARCHAR},
+      goodsquality = #{goodsquality,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

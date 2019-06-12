@@ -1,0 +1,17 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserLog;
+import com.gmm.drp.vo.R;
+
+public interface UserService {
+
+    //注册
+    /*R save(User user);*/
+    R save(String username, String password);
+    //校验是否存在
+    R checkName(String username);
+    //登录---账号是否存在临时无效
+    User login(String username,String password);
+    void saveLog(UserLog userLog);
+}

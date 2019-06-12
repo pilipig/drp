@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmm.dao.OrderDao">
+  <resultMap id="BaseResultMap" type="com.gmm.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ordernum" jdbcType="VARCHAR" property="ordernum" />
+    <result column="personname" jdbcType="VARCHAR" property="personname" />
+    <result column="personid" jdbcType="INTEGER" property="personid" />
+    <result column="personphone" jdbcType="VARCHAR" property="personphone" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="paytype" jdbcType="INTEGER" property="paytype" />
+    <result column="paytime" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="ordertime" jdbcType="TIMESTAMP" property="ordertime" />
+    <result column="deliverytime" jdbcType="TIMESTAMP" property="deliverytime" />
+    <result column="receivetime" jdbcType="TIMESTAMP" property="receivetime" />
+    <result column="confirmstatus" jdbcType="INTEGER" property="confirmstatus" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="takename" jdbcType="VARCHAR" property="takename" />
+    <result column="takephone" jdbcType="VARCHAR" property="takephone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="orderstatus" jdbcType="INTEGER" property="orderstatus" />
+    <result column="goodsprice" jdbcType="DECIMAL" property="goodsprice" />
+    <result column="orderprice" jdbcType="DECIMAL" property="orderprice" />
+    <result column="phoneip" jdbcType="VARCHAR" property="phoneip" />
+    <result column="phonetype" jdbcType="VARCHAR" property="phonetype" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="commenttime" jdbcType="TIMESTAMP" property="commenttime" />
+    <result column="deletestatus" jdbcType="INTEGER" property="deletestatus" />
+    <result column="actinfo" jdbcType="VARCHAR" property="actinfo" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List">
+    id, ordernum, personname, personid, personphone, goodsnum, paytype, paytime, ordertime,
+    deliverytime, receivetime, confirmstatus, province, city, district, takename, takephone, 
+    address, orderstatus, goodsprice, orderprice, phoneip, phonetype, remark, commenttime, 
+    deletestatus, actinfo
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--总数分页-->
+  <select id="selectCount" resultType="long">
+    select count(*) from t_order
+  </select>
+  <select id="selectByPage" parameterType="com.gmm.drp.entity.Order" resultMap="BaseResultMap">
+    SELECT id,ordernum,personname,personid,personphone,goodsnum,ordertime,deliverytime,province,province,city,district,address,orderstatus,goodsprice,orderprice,phoneip,phonetype,remark
+    from t_order  order by ordertime desc limit #{index},#{count}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+
+  <insert id="insert" parameterType="com.gmm.entity.Order">
+    insert into t_order (ordernum, personname,
+      personid, personphone, goodsnum,
+      paytype, paytime, ordertime, 
+      deliverytime, receivetime, confirmstatus, 
+      province, city, district, 
+      takename, takephone, address, 
+      orderstatus, goodsprice, orderprice, 
+      phoneip, phonetype, remark, 
+      commenttime, deletestatus, actinfo
+      )
+    values (#{ordernum,jdbcType=VARCHAR}, #{personname,jdbcType=VARCHAR},
+      #{personid,jdbcType=INTEGER}, #{personphone,jdbcType=VARCHAR}, #{goodsnum,jdbcType=INTEGER},
+      #{paytype,jdbcType=INTEGER}, #{paytime,jdbcType=TIMESTAMP}, #{ordertime,jdbcType=TIMESTAMP}, 
+      #{deliverytime,jdbcType=TIMESTAMP}, #{receivetime,jdbcType=TIMESTAMP}, #{confirmstatus,jdbcType=INTEGER}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{takename,jdbcType=VARCHAR}, #{takephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=INTEGER}, #{goodsprice,jdbcType=DECIMAL}, #{orderprice,jdbcType=DECIMAL}, 
+      #{phoneip,jdbcType=VARCHAR}, #{phonetype,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{commenttime,jdbcType=TIMESTAMP}, #{deletestatus,jdbcType=INTEGER}, #{actinfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gmm.entity.Order">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+      <if test="personname != null">
+        personname,
+      </if>
+      <if test="personid != null">
+        personid,
+      </if>
+      <if test="personphone != null">
+        personphone,
+      </if>
+      <if test="goodsnum != null">
+        goodsnum,
+      </if>
+      <if test="paytype != null">
+        paytype,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="ordertime != null">
+        ordertime,
+      </if>
+      <if test="deliverytime != null">
+        deliverytime,
+      </if>
+      <if test="receivetime != null">
+        receivetime,
+      </if>
+      <if test="confirmstatus != null">
+        confirmstatus,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="takename != null">
+        takename,
+      </if>
+      <if test="takephone != null">
+        takephone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="orderstatus != null">
+        orderstatus,
+      </if>
+      <if test="goodsprice != null">
+        goodsprice,
+      </if>
+      <if test="orderprice != null">
+        orderprice,
+      </if>
+      <if test="phoneip != null">
+        phoneip,
+      </if>
+      <if test="phonetype != null">
+        phonetype,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="commenttime != null">
+        commenttime,
+      </if>
+      <if test="deletestatus != null">
+        deletestatus,
+      </if>
+      <if test="actinfo != null">
+        actinfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="personname != null">
+        #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null">
+        #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="personphone != null">
+        #{personphone,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null">
+        #{paytype,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ordertime != null">
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverytime != null">
+        #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null">
+        #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmstatus != null">
+        #{confirmstatus,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="takename != null">
+        #{takename,jdbcType=VARCHAR},
+      </if>
+      <if test="takephone != null">
+        #{takephone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="goodsprice != null">
+        #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprice != null">
+        #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneip != null">
+        #{phoneip,jdbcType=VARCHAR},
+      </if>
+      <if test="phonetype != null">
+        #{phonetype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null">
+        #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        #{deletestatus,jdbcType=INTEGER},
+      </if>
+      <if test="actinfo != null">
+        #{actinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmm.entity.Order">
+    update t_order
+    <set>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="personname != null">
+        personname = #{personname,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null">
+        personid = #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="personphone != null">
+        personphone = #{personphone,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnum != null">
+        goodsnum = #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null">
+        paytype = #{paytype,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ordertime != null">
+        ordertime = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverytime != null">
+        deliverytime = #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null">
+        receivetime = #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmstatus != null">
+        confirmstatus = #{confirmstatus,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="takename != null">
+        takename = #{takename,jdbcType=VARCHAR},
+      </if>
+      <if test="takephone != null">
+        takephone = #{takephone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null">
+        orderstatus = #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="goodsprice != null">
+        goodsprice = #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprice != null">
+        orderprice = #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneip != null">
+        phoneip = #{phoneip,jdbcType=VARCHAR},
+      </if>
+      <if test="phonetype != null">
+        phonetype = #{phonetype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null">
+        commenttime = #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletestatus != null">
+        deletestatus = #{deletestatus,jdbcType=INTEGER},
+      </if>
+      <if test="actinfo != null">
+        actinfo = #{actinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gmm.entity.Order">
+    update t_order
+    set ordernum = #{ordernum,jdbcType=VARCHAR},
+      personname = #{personname,jdbcType=VARCHAR},
+      personid = #{personid,jdbcType=INTEGER},
+      personphone = #{personphone,jdbcType=VARCHAR},
+      goodsnum = #{goodsnum,jdbcType=INTEGER},
+      paytype = #{paytype,jdbcType=INTEGER},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      ordertime = #{ordertime,jdbcType=TIMESTAMP},
+      deliverytime = #{deliverytime,jdbcType=TIMESTAMP},
+      receivetime = #{receivetime,jdbcType=TIMESTAMP},
+      confirmstatus = #{confirmstatus,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      takename = #{takename,jdbcType=VARCHAR},
+      takephone = #{takephone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      orderstatus = #{orderstatus,jdbcType=INTEGER},
+      goodsprice = #{goodsprice,jdbcType=DECIMAL},
+      orderprice = #{orderprice,jdbcType=DECIMAL},
+      phoneip = #{phoneip,jdbcType=VARCHAR},
+      phonetype = #{phonetype,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      commenttime = #{commenttime,jdbcType=TIMESTAMP},
+      deletestatus = #{deletestatus,jdbcType=INTEGER},
+      actinfo = #{actinfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,36 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.OrderHistory;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+public interface OrderHistoryDao {
+
+   /* int countByExample(OrderHistoryExample example);
+    int deleteByExample(OrderHistoryExample example);*/
+
+
+    //删除
+    int deleteById(Integer id);
+
+    int insert(OrderHistory orderHistory);
+
+    int insertSelective(OrderHistory orderHistory);
+
+   // List<OrderHistory> selectByExample(OrderHistoryExample example);
+
+    OrderHistory selectById(Integer id);
+
+    //int updateByExampleSelective(@Param("record") OrderHistoryExample record, @Param("example") OrderHistoryExample example);
+
+   // int updateByExample(@Param("record") OrderHistoryExample record, @Param("example") OrderHistoryExample example);
+
+    int updateById(OrderHistory orderHistory);
+
+    int updateByPrimaryKey(OrderHistory orderHistory);
+
+
+    //订单操作记录自定义Dao
+    int insertList(@Param("list") List<OrderHistory> orderHistory);
+}

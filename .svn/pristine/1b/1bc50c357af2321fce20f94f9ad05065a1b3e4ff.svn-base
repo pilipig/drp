@@ -1,0 +1,45 @@
+package com.gmm.drp.dao;
+
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.entity.User;
+import org.apache.ibatis.annotations.*;
+import sun.rmi.runtime.Log;
+
+import java.util.List;
+
+public interface PersonDao {
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商品信息列表
+     */
+   /* @Select("select * from t_person")
+    @ResultType(Person.class)
+    List<Person> personList();*/
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:分页
+     *  @Depict:
+     */
+    @Select("select * from t_person limit #{page},#{limit}")
+    @ResultType(Person.class)
+    List<Person> selectByPage(@Param("page") int page, @Param("limit") int limit);
+   /**
+    *  @Author:fuyinggang
+    *  @Date:
+    *  @Depict:总条数
+    */
+    @Select("select count(*) from t_person")
+    @ResultType(Long.class)
+    Long selectCount();
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户详情
+     */
+    @Select("select * from t_person where id=#{id}")
+    @ResultType(Person.class)
+    List<Person> personDetails(@Param("id") int id);
+}

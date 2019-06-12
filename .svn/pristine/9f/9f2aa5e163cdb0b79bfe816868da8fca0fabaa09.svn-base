@@ -1,0 +1,9 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Order;
+import com.gmm.drp.vo.PageVo;
+
+public interface OrderService {
+
+    PageVo<Order> queryByPage(int page, int limit);
+}

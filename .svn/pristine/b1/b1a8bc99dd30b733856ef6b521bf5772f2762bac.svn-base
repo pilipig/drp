@@ -1,0 +1,59 @@
+package com.gmm.drp.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.entity.User;
+import com.gmm.drp.entity.UserLog;
+import com.gmm.drp.service.PersonService;
+import com.gmm.drp.service.UserService;
+import com.gmm.drp.utils.ResultUtil;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+@RestController
+public class PersonController {
+    @Autowired
+    private PersonService personService;
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户一览
+     * @return
+     */
+   /* @GetMapping("/personList.do")
+    public PageVo<Person>  personList(){
+        return personService.personList();
+    }*/
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @page：当前页
+     *  @limit：每页显示几条数据
+     *  @Depict:分页
+     */
+    @RequestMapping("paging.do")
+    public PageVo<Person> list(int page,int limit){
+        return personService.selectByPage(page,limit);
+    }
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户详情
+     */
+    @RequestMapping("personDetails.do")
+    public List<Person> personDetails(Integer id){
+
+        return personService.personDetails(id);
+    }
+}
+

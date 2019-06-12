@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商户详情</title>
+    <link rel="stylesheet" href="../media/layui/css/layui.css">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+<legend>商户详情</legend>
+</fieldset>
+<table class="layui-hide" id="personDetails"></table>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>喜欢</legend>
+</fieldset>
+<table class="layui-hide" id="love"></table>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>浏览记录</legend>
+</fieldset>
+<table class="layui-hide" id="record"></table>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>登录日志</legend>
+</fieldset>
+<table class="layui-hide" id="log"></table>
+
+
+<script type="application/javascript" src="../media/layui/layui.js"></script>
+<script type="application/javascript" src="../media/js/jquery.min.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+<script>
+            if( window.location.href.split("?")[1]!="" ){
+                var C1=window.location.href.split("?")[1];
+                var id=C1.split("=")[1];
+               $.ajax({
+                    url:"../personDetails.do",
+                    data:"id="+id,
+                    dataType:"JSON",
+                    success:function (data) {
+                        var data =data;
+                        /*商户详情*/
+                        layui.use('table', function(){
+                            var table = layui.table;
+                            table.render({
+                                elem: '#personDetails'
+                                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                                ,data:data
+                                ,cols: [[
+                                    {field:'id', width:80, title: 'ID', sort: true}
+                                    ,{field:'shopname', width:80, title: '用户名'}
+                                    ,{field:'personname', width:80, title: '名字', sort: true}
+                                    ,{field:'sex', width:80, title: '性别', sort: true}
+                                    ,{field:'birthday', width:80, title: '生日', sort: true}
+                                    ,{field:'phone', width:80, title: '电话', sort: true}
+                                    ,{field:'address', width:80, title: '地址', sort: true}
+                                    ,{field:'phonetype', width:80, title: '手机型号', sort: true}
+                                    ,{field:'createdate', width:80, title: '注册时间', sort: true}
+                                    ,{field:'phoneip', width:80, title: 'ip地址', sort: true}
+
+                                ]]
+                            });
+                        });
+                    }
+                })
+            }else{
+                //TODO
+                alert("无法获取数据,请按照正确的方式进入商户详情页");
+            }
+    /*喜欢*/
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#love'
+            ,url:'/demo/table/user/'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'username', width:80, title: '用户名'}
+                ,{field:'sex', width:80, title: '性别', sort: true}
+            ]]
+        });
+    });
+    /*浏览记录*/
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#record'
+            ,url:'/demo/table/user/'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'username', width:80, title: '用户名'}
+                ,{field:'sex', width:80, title: '性别', sort: true}
+            ]]
+        });
+    });
+    /*详情*/
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#log'
+            ,url:'/demo/table/user/'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'username', width:80, title: '用户名'}
+                ,{field:'sex', width:80, title: '性别', sort: true}
+            ]]
+        });
+    });
+</script>
+</body>
+</html>

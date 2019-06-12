@@ -1,0 +1,49 @@
+package com.gmm.drp.service;
+
+import com.gmm.drp.entity.Person;
+import com.gmm.drp.vo.PageVo;
+
+import java.util.List;
+
+public interface PersonService {
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户一览
+     */
+    /*PageVo<Person>  personList();*/
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:分页
+     */
+    PageVo<Person> selectByPage(int page, int limit);
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户详情
+     */
+    List<Person> personDetails(int id);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户喜欢
+     */
+    List<Person> personLove(int pid);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户浏览记录
+     */
+    List<Person> personRcord(int pid);
+
+    /**
+     *  @Author:fuyinggang
+     *  @Date:
+     *  @Depict:商户登录日志
+     */
+    List<Person> personLoginLog(int pid);
+}

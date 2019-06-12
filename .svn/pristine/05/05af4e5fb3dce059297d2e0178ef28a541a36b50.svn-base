@@ -1,0 +1,79 @@
+package com.gmm.drp.controller;
+
+import com.gmm.drp.entity.Goods;
+import com.gmm.drp.entity.Price;
+import com.gmm.drp.service.GoodsService;
+import com.gmm.drp.vo.PageVo;
+import com.gmm.drp.vo.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * @ClassName GoodsController
+ * @Description
+ * @Author baohaipeng
+ * @Date
+ * @Version 1.0
+ */
+@RestController
+public class GoodsController {
+    @Autowired
+    private GoodsService goodsService;
+
+    /**
+     * 产品置顶
+     * @param id
+     * @return
+     */
+    @RequestMapping("goodssettop.do")
+    public R setTop(int id){
+        return goodsService.setTop(id);
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @RequestMapping("delgoodsbyid.do")
+    public R delGoodsById(int id){
+        return goodsService.delGoodsById(id);
+    }
+
+    /**
+     * 保存
+     * @param goods
+     * @return
+     */
+    @RequestMapping("goodsadd.do")
+    public R save(Goods goods){
+        return goodsService.save(goods);}
+
+    /**
+     * 产品详情
+     * @param page
+     * @param limit
+     * @return
+     */
+    @RequestMapping("goodslist.do")
+    public PageVo<Goods> list(int page,int limit){
+        System.out.println("----------------------------------------------------------------");
+        return goodsService.queryByPage(page, limit);
+    }
+
+
+    @RequestMapping("showattribute.do")
+    public List<?> list(){return goodsService.showAttribute();}
+
+    /**
+     * 产品价格系统展示
+     * @param id
+     * @return
+     */
+    @RequestMapping("showpricebyid.do")
+    public Price showPriceById(int id){return goodsService.showPriceById(id);}
+
+}

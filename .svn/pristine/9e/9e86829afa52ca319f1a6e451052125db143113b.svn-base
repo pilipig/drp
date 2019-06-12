@@ -1,0 +1,155 @@
+package com.gmm.drp.entity;
+
+import java.util.Date;
+
+public class Person {
+    private Integer id;
+    private String shopname;
+    private String personname;
+    private String sex;
+    private String birthday;
+    private String phone;
+    private String address;
+    private String phonetype;
+    private Date createdate;
+    private String phoneip;
+
+    //商品名称
+    private String gname;
+    //浏览记录
+    private Date begin_time;
+    private Date end_time;
+    //登录日志
+    private Date login_time;
+    private Date quit_time;
+    //喜欢
+    private Date create_time;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    public String getPersonname() {
+        return personname;
+    }
+
+    public void setPersonname(String personname) {
+        this.personname = personname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhonetype() {
+        return phonetype;
+    }
+
+    public void setPhonetype(String phonetype) {
+        this.phonetype = phonetype;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public String getPhoneip() {
+        return phoneip;
+    }
+
+    public void setPhoneip(String phoneip) {
+        this.phoneip = phoneip;
+    }
+
+    public String getGname() {
+        return gname;
+    }
+
+    public void setGname(String gname) {
+        this.gname = gname;
+    }
+
+    public Date getBegin_time() {
+        return begin_time;
+    }
+
+    public void setBegin_time(Date begin_time) {
+        this.begin_time = begin_time;
+    }
+
+    public Date getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
+    }
+
+    public Date getLogin_time() {
+        return login_time;
+    }
+
+    public void setLogin_time(Date login_time) {
+        this.login_time = login_time;
+    }
+
+    public Date getQuit_time() {
+        return quit_time;
+    }
+
+    public void setQuit_time(Date quit_time) {
+        this.quit_time = quit_time;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
+}
